@@ -17,13 +17,13 @@ public class Controller {
             query += " WHERE ";
         }
         if(from.length() > 0){
-            query += "travelFrom = " + from;
+            query += "travel_From = " + from;
         }
         if(from.length() > 0 && to.length() > 0){
             query += " AND ";
         }
         if(to.length() > 0){
-            query += "travelTo = " + to;
+            query += "travel_To = " + to;
         }
 
         Class.forName("org.postgresql.Driver").newInstance();
@@ -106,7 +106,7 @@ public class Controller {
     public static void main(String[] args){
         Controller c = new Controller();
         try{
-            c.createAccount("Erik", "testsson", "testgatan 1", 27614, "Malmoe", "test@test.se", "782346238746");
+         //   c.createAccount("Erik", "testsson", "testgatan 1", 27614, "Malmoe", "test@test.se", "782346238746");
             c.adminShowUsers();
         }catch (Exception e){
             e.printStackTrace();
