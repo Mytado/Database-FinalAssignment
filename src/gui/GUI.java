@@ -58,11 +58,15 @@ public class GUI {
     }
 
     private void setRegisterUI() {
-        JPanel registerPanel = new JPanel(new GridLayout(5,2));
-        JLabel nameLabel = new JLabel("Name:");
-        JTextField nameTF = new JTextField();
-        JLabel addressLabel = new JLabel("Address:");
-        JTextField addressTF = new JTextField();
+        JPanel registerPanel = new JPanel(new GridLayout(7,2));
+        JLabel firstNameLabel = new JLabel("First name:");
+        JTextField firstNameTF = new JTextField();
+        JLabel lastNameLabel = new JLabel("Last name:");
+        JTextField lastNameTF = new JTextField();
+        JLabel streetAddressLabel = new JLabel("Street address:");
+        JTextField streetAddressTF = new JTextField();
+        JLabel zipLabel = new JLabel("Zip code");
+        JTextField zipTF = new JTextField();
         JLabel emailLabel = new JLabel("Email:");
         JTextField emailTF = new JTextField();
         JLabel phoneLabel = new JLabel("Phone nr:");
@@ -70,9 +74,9 @@ public class GUI {
         JButton registerBtn = new JButton("Register");
         JLabel blankLabel = new JLabel();
         registerBtn.addActionListener(e->{
-            if (!(nameTF.getText().isEmpty()) && !(addressTF.getText().isEmpty()) && !(emailTF.getText().isEmpty()) && !(phoneTF.getText().isEmpty())) {
+            if (!(firstNameTF.getText().isEmpty()) && !(lastNameTF.getText().isEmpty()) && !(streetAddressTF.getText().isEmpty()) && !(zipTF.getText().isEmpty()) && !(emailTF.getText().isEmpty()) && !(phoneTF.getText().isEmpty())) {
                 try {
-                    controller.createAccount(nameTF.getText(), addressTF.getText(), emailTF.getText(), phoneTF.getText());
+                    controller.createAccount(firstNameTF.getText(), lastNameTF.getText(), streetAddressTF.getText(), zipTF.getText(), emailTF.getText(), phoneTF.getText());
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -83,10 +87,12 @@ public class GUI {
             }
         });
 
-        registerPanel.add(nameLabel);
-        registerPanel.add(nameTF);
-        registerPanel.add(addressLabel);
-        registerPanel.add(addressTF);
+        registerPanel.add(firstNameLabel);
+        registerPanel.add(firstNameTF);
+        registerPanel.add(lastNameLabel);
+        registerPanel.add(lastNameTF);
+        registerPanel.add(streetAddressLabel);
+        registerPanel.add(streetAddressTF);
         registerPanel.add(emailLabel);
         registerPanel.add(emailTF);
         registerPanel.add(phoneLabel);
