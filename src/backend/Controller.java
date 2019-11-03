@@ -4,9 +4,20 @@ import java.sql.*;
 import java.util.*;
 
 public class Controller {
+    Connection con;
 
-    public Controller() {
+    public Controller()  {
+        try {
+            Class.forName("org.postgresql.Driver").newInstance();
 
+            con = DriverManager.getConnection("jdbc:postgresql://pgserver.mah.se/traveldata_grp1_nov6?user=aj0739&password=6lg2f7p2");
+        } catch(Exception e){
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     public String search(String from, String to) throws Exception{
@@ -26,9 +37,6 @@ public class Controller {
             query += "travel_To = " + to;
         }
 
-        Class.forName("org.postgresql.Driver").newInstance();
-
-        Connection con = DriverManager.getConnection("jdbc:postgresql://pgserver.mah.se/traveldata_grp1_nov6?user=aj0739&password=6lg2f7p2");
         PreparedStatement statement = con.prepareStatement(query);
         ResultSet res = statement.executeQuery();
         while(res.next()){
@@ -40,14 +48,13 @@ public class Controller {
                     + res.getInt(6) + " "
                     + res.getInt(7) + "\n");
         }
-        con.close();
+
+        System.out.println(query);
         return result.toString();
     }
 
     public void createAccount(String fname, String lname, String address, int zipcode, String city, String email, String phoneNumber) throws Exception{
-        Class.forName("org.postgresql.Driver").newInstance();
 
-        Connection con = DriverManager.getConnection("jdbc:postgresql://pgserver.mah.se/traveldata_grp1_nov6?user=aj0739&password=6lg2f7p2");
         PreparedStatement statement = con.prepareStatement("INSERT INTO Customer (customer_fname, customer_lname, customer_address, customer_zipcode, customer_city, customer_email, customer_phoneNumber) " +
                 "VALUES(?, ?, ?, ?, ?, ?, ?)");
         statement.setString(1, fname);
@@ -60,54 +67,60 @@ public class Controller {
         statement.execute();
 
 
-        con.close();
+
     }
 
     public void adminShowUsers() throws Exception{
-        Class.forName("org.postgresql.Driver").newInstance();
 
-        Connection con = DriverManager.getConnection("jdbc:postgresql://pgserver.mah.se/traveldata_grp1_nov6?user=aj0739&password=6lg2f7p2");
         PreparedStatement statement = con.prepareStatement("SELECT * FROM Customer");
         ResultSet res = statement.executeQuery();
         while(res.next()){
             System.out.println(res.getInt(1) + " " + res.getString(2) + " " + res.getString(3) + " " + res.getString(4));
         }
-        con.close();
+
     }
 
     public boolean login(String email) throws Exception{
-        Class.forName("org.postgresql.Driver").newInstance();
 
-        Connection con = DriverManager.getConnection("jdbc:postgresql://pgserver.mah.se/traveldata_grp1_nov6?user=aj0739&password=6lg2f7p2");
+
+
         PreparedStatement statement = con.prepareStatement("SELECT customer_email FROM Customer WHERE customer_email = " + email);
         ResultSet res = statement.executeQuery();
-        con.close();
+
         String result = res.getString(1);
         return (result.length() > 0);
     }
 
     public boolean book(int travelId, int seats)throws Exception {
-        Class.forName("org.postgresql.Driver").newInstance();
 
-        Connection con = DriverManager.getConnection("jdbc:postgresql://pgserver.mah.se/traveldata_grp1_nov6?user=aj0739&password=6lg2f7p2");
+
+
         PreparedStatement statement = con.prepareStatement("SELECT availableSeats FROM Travel WHERE travelId = " + travelId);
         ResultSet res = statement.executeQuery();
         int availableSeats = res.getInt(1);
         if(seats <= availableSeats){
             PreparedStatement updateStatement = con.prepareStatement("UPDATE Travel SET availableSeats = availableSeats - " + seats);
-            con.close();
+
             return true;
         }
 
-        con.close();
+
         return false;
+    }
+
+    public void disconnect(){
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args){
         Controller c = new Controller();
         try{
          //   c.createAccount("Erik", "testsson", "testgatan 1", 27614, "Malmoe", "test@test.se", "782346238746");
-            c.adminShowUsers();
+            c.search("London", "Helsingborg");
         }catch (Exception e){
             e.printStackTrace();
         }
