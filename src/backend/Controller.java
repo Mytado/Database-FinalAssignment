@@ -57,7 +57,8 @@ public class Controller {
         statement.setString(5, city);
         statement.setString(6, email);
         statement.setString(7, phoneNumber);
-        ResultSet res = statement.executeQuery();
+        statement.execute();
+
 
         con.close();
     }
@@ -106,7 +107,7 @@ public class Controller {
         Controller c = new Controller();
         try{
             c.createAccount("Erik", "testsson", "testgatan 1", 27614, "Malmoe", "test@test.se", "782346238746");
-
+            c.adminShowUsers();
         }catch (Exception e){
             e.printStackTrace();
         }
