@@ -83,11 +83,14 @@ public class Controller {
     public boolean login(String email) throws Exception{
 
 
-
-        PreparedStatement statement = con.prepareStatement("SELECT customer_email FROM Customer WHERE customer_email = " + email);
+        PreparedStatement statement = con.prepareStatement("SELECT customer_email FROM Customer WHERE customer_email = ?");
+        statement.setString(1, email);
         ResultSet res = statement.executeQuery();
+        String result ="";
+        while(res.next()){
+             result = res.getString(1);
+        }
 
-        String result = res.getString(1);
         return (result.length() > 0);
     }
 
@@ -120,9 +123,11 @@ public class Controller {
         Controller c = new Controller();
         try{
          //   c.createAccount("Erik", "testsson", "testgatan 1", 27614, "Malmoe", "test@test.se", "782346238746");
-            c.search("London", "Helsingborg");
+            c.login("Rick@gmail.com");
+            c.disconnect();
         }catch (Exception e){
             e.printStackTrace();
+            c.disconnect();
         }
 
     }
