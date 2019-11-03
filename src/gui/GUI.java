@@ -63,7 +63,7 @@ public class GUI {
         JTextField firstNameTF = new JTextField();
         JLabel lastNameLabel = new JLabel("Last name:");
         JTextField lastNameTF = new JTextField();
-        JLabel adressLabel = new JLabel("Address:");
+        JLabel addressLabel = new JLabel("Address:");
         JTextField addressTF = new JTextField();
         JLabel zipLabel = new JLabel("Zip code");
         JTextField zipTF = new JTextField();
@@ -93,8 +93,12 @@ public class GUI {
         registerPanel.add(firstNameTF);
         registerPanel.add(lastNameLabel);
         registerPanel.add(lastNameTF);
-        registerPanel.add(adressLabel);
+        registerPanel.add(addressLabel);
         registerPanel.add(addressTF);
+        registerPanel.add(zipLabel);
+        registerPanel.add(zipTF);
+        registerPanel.add(cityLabel);
+        registerPanel.add(cityTF);
         registerPanel.add(emailLabel);
         registerPanel.add(emailTF);
         registerPanel.add(phoneLabel);
