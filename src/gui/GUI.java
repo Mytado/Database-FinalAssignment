@@ -76,7 +76,7 @@ public class GUI {
         JButton registerBtn = new JButton("Register");
         JLabel blankLabel = new JLabel();
         registerBtn.addActionListener(e->{
-            if (!(firstNameTF.getText().isEmpty()) && !(lastNameTF.getText().isEmpty()) && !(addressTF.getText().isEmpty()) && !(zipTF.getText().isEmpty()) && !(cityTF.getText().isEmpty()) && !(emailTF.getText().isEmpty()) && !(phoneTF.getText().isEmpty())) {
+            if (!(firstNameTF.getText().isEmpty()) && !(lastNameTF.getText().isEmpty()) && !(addressTF.getText().isEmpty()) && !(zipTF.getText().isEmpty()) && !(cityTF.getText().isEmpty()) && !(emailTF.getText().isEmpty())) {
                 try {
                     controller.createAccount(firstNameTF.getText(), lastNameTF.getText(), addressTF.getText(), Integer.parseInt(zipTF.getText()), cityTF.getText(), emailTF.getText(), phoneTF.getText());
                 } catch (Exception ex) {
@@ -190,7 +190,7 @@ public class GUI {
         mainFrame.add(mainPanel);
         mainFrame.revalidate();
         mainFrame.repaint();
-        mainFrame.setSize(new Dimension(250, 200));
+        mainFrame.setSize(new Dimension(500, 400));
 
     }
     public static void main(String[] args) {
