@@ -24,7 +24,7 @@ public class Controller {
 
         Class.forName("org.postgresql.Driver").newInstance();
 
-        Connection con = DriverManager.getConnection("jdbc:postgresql://pgserver.mah.se/anstdata?user=aj0533&password=5rsgoqk7");
+        Connection con = DriverManager.getConnection("jdbc:postgresql://pgserver.mah.se/traveldata_grp1_nov6?user=aj0533&password=5rsgoqk7");
         PreparedStatement statement = con.prepareStatement(query);
         ResultSet res = statement.executeQuery();
         while(res.next()){
@@ -38,18 +38,18 @@ public class Controller {
         }
         con.close();
 
-
         return result.toString();
     }
 
-    public void createAccount(String name, String address, String phoneNumber) throws Exception{
+    public void createAccount(String name, String address, String email, String phoneNumber) throws Exception{
         Class.forName("org.postgresql.Driver").newInstance();
 
-        Connection con = DriverManager.getConnection("jdbc:postgresql://pgserver.mah.se/anstdata?user=aj0533&password=5rsgoqk7");
-        PreparedStatement statement = con.prepareStatement("INSERT INTO Customer (name, address, email, phoneNumber) VALUES(?, ?, ?)");
+        Connection con = DriverManager.getConnection("jdbc:postgresql://pgserver.mah.se/travelData_grp1_nov6?user=aj0533&password=5rsgoqk7");
+        PreparedStatement statement = con.prepareStatement("INSERT INTO Customer (name, address, email, phoneNumber) VALUES(?, ?, ?, ?)");
         statement.setString(1, name);
         statement.setString(2, address);
-        statement.setString(3, phoneNumber);
+        statement.setString(3, email);
+        statement.setString(4, phoneNumber);
         ResultSet res = statement.executeQuery();
 
         con.close();
@@ -58,7 +58,7 @@ public class Controller {
     public void adminShowUsers() throws Exception{
         Class.forName("org.postgresql.Driver").newInstance();
 
-        Connection con = DriverManager.getConnection("jdbc:postgresql://pgserver.mah.se/anstdata?user=aj0533&password=5rsgoqk7");
+        Connection con = DriverManager.getConnection("jdbc:postgresql://pgserver.mah.se/travelData_grp1_nov6?user=aj0533&password=5rsgoqk7");
         PreparedStatement statement = con.prepareStatement("SELECT * FROM Customer");
         ResultSet res = statement.executeQuery();
         while(res.next()){
@@ -70,7 +70,7 @@ public class Controller {
     public boolean login(String email) throws Exception{
         Class.forName("org.postgresql.Driver").newInstance();
 
-        Connection con = DriverManager.getConnection("jdbc:postgresql://pgserver.mah.se/anstdata?user=aj0533&password=5rsgoqk7");
+        Connection con = DriverManager.getConnection("jdbc:postgresql://pgserver.mah.se/travelData_grp1_nov6?user=aj0533&password=5rsgoqk7");
         PreparedStatement statement = con.prepareStatement("SELECT email FROM Customer WHERE email = " + email);
         ResultSet res = statement.executeQuery();
         con.close();
@@ -81,7 +81,7 @@ public class Controller {
     public boolean book(int travelId, int seats)throws Exception {
         Class.forName("org.postgresql.Driver").newInstance();
 
-        Connection con = DriverManager.getConnection("jdbc:postgresql://pgserver.mah.se/anstdata?user=aj0533&password=5rsgoqk7");
+        Connection con = DriverManager.getConnection("jdbc:postgresql://pgserver.mah.se/travelData_grp1_nov6?user=aj0533&password=5rsgoqk7");
         PreparedStatement statement = con.prepareStatement("SELECT availableSeats FROM Travel WHERE travelId = " + travelId);
         ResultSet res = statement.executeQuery();
         int availableSeats = res.getInt(1);
