@@ -58,15 +58,17 @@ public class GUI {
     }
 
     private void setRegisterUI() {
-        JPanel registerPanel = new JPanel(new GridLayout(7,2));
+        JPanel registerPanel = new JPanel(new GridLayout(9,2));
         JLabel firstNameLabel = new JLabel("First name:");
         JTextField firstNameTF = new JTextField();
         JLabel lastNameLabel = new JLabel("Last name:");
         JTextField lastNameTF = new JTextField();
-        JLabel streetAddressLabel = new JLabel("Street address:");
-        JTextField streetAddressTF = new JTextField();
+        JLabel adressLabel = new JLabel("Address:");
+        JTextField addressTF = new JTextField();
         JLabel zipLabel = new JLabel("Zip code");
         JTextField zipTF = new JTextField();
+        JLabel cityLabel = new JLabel("City");
+        JTextField cityTF = new JTextField();
         JLabel emailLabel = new JLabel("Email:");
         JTextField emailTF = new JTextField();
         JLabel phoneLabel = new JLabel("Phone nr:");
@@ -74,9 +76,9 @@ public class GUI {
         JButton registerBtn = new JButton("Register");
         JLabel blankLabel = new JLabel();
         registerBtn.addActionListener(e->{
-            if (!(firstNameTF.getText().isEmpty()) && !(lastNameTF.getText().isEmpty()) && !(streetAddressTF.getText().isEmpty()) && !(zipTF.getText().isEmpty()) && !(emailTF.getText().isEmpty()) && !(phoneTF.getText().isEmpty())) {
+            if (!(firstNameTF.getText().isEmpty()) && !(lastNameTF.getText().isEmpty()) && !(addressTF.getText().isEmpty()) && !(zipTF.getText().isEmpty()) && !(cityTF.getText().isEmpty()) && !(emailTF.getText().isEmpty()) && !(phoneTF.getText().isEmpty())) {
                 try {
-                    controller.createAccount(firstNameTF.getText(), lastNameTF.getText(), streetAddressTF.getText(), zipTF.getText(), emailTF.getText(), phoneTF.getText());
+                    controller.createAccount(firstNameTF.getText(), lastNameTF.getText(), addressTF.getText(), Integer.parseInt(zipTF.getText()), cityTF.getText(), emailTF.getText(), phoneTF.getText());
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -91,8 +93,8 @@ public class GUI {
         registerPanel.add(firstNameTF);
         registerPanel.add(lastNameLabel);
         registerPanel.add(lastNameTF);
-        registerPanel.add(streetAddressLabel);
-        registerPanel.add(streetAddressTF);
+        registerPanel.add(adressLabel);
+        registerPanel.add(addressTF);
         registerPanel.add(emailLabel);
         registerPanel.add(emailTF);
         registerPanel.add(phoneLabel);
