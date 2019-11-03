@@ -79,7 +79,7 @@ public class Controller {
         Class.forName("org.postgresql.Driver").newInstance();
 
         Connection con = DriverManager.getConnection("jdbc:postgresql://pgserver.mah.se/traveldata_grp1_nov6?user=aj0739&password=6lg2f7p2");
-        PreparedStatement statement = con.prepareStatement("SELECT email FROM Customer WHERE email = " + email);
+        PreparedStatement statement = con.prepareStatement("SELECT customer_email FROM Customer WHERE customer_email = " + email);
         ResultSet res = statement.executeQuery();
         con.close();
         String result = res.getString(1);
