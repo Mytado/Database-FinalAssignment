@@ -28,13 +28,13 @@ public class Controller {
             query += " WHERE ";
         }
         if(from.length() > 0){
-            query += "travel_From = " + from;
+            query += "travel_From = " + "'"+from+"'";
         }
         if(from.length() > 0 && to.length() > 0){
             query += " AND ";
         }
         if(to.length() > 0){
-            query += "travel_To = " + to;
+            query += "travel_To = " + "'"+to+"'";
         }
 
         PreparedStatement statement = con.prepareStatement(query);
