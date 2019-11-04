@@ -10,11 +10,10 @@ import java.awt.event.WindowEvent;
 public class GUI {
     private Controller controller;
     private JFrame mainFrame;
-    private String trips;
+    private String email = "";
 
     public GUI(Controller controller) {
         this.controller = controller;
-
         setup();
     }
 
@@ -30,7 +29,7 @@ public class GUI {
         mainFrame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we) {
-                controller.();
+                controller.disconnect();
 
             }
         });
@@ -45,6 +44,7 @@ public class GUI {
         loginBtn.addActionListener(e -> {
             try {
                 if (!(loginTF.getText().isEmpty()) && controller.login(loginTF.getText())) {
+                    email = loginTF.getText();
                     setMainUI();
                 }
                 else {
@@ -88,6 +88,7 @@ public class GUI {
             if (!(firstNameTF.getText().isEmpty()) && !(lastNameTF.getText().isEmpty()) && !(addressTF.getText().isEmpty()) && !(zipTF.getText().isEmpty()) && !(cityTF.getText().isEmpty()) && !(emailTF.getText().isEmpty())) {
                 try {
                     controller.createAccount(firstNameTF.getText(), lastNameTF.getText(), addressTF.getText(), Integer.parseInt(zipTF.getText()), cityTF.getText(), emailTF.getText(), phoneTF.getText());
+                    email = emailTF.getText();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -148,7 +149,7 @@ public class GUI {
         searchBtn.addActionListener(e -> {
             if (!(fromTF.getText().isEmpty()) && !(toTF.getText().isEmpty())) {
                 try {
-                    tripsTA.setText("");
+                    tripsTA.setText("TRAVELID | FROM | DEPARTURE | ARRIVAL | PRICE | SEATS AVAILABLE\n");
                     tripsTA.append(controller.search(fromTF.getText(), toTF.getText()));
                 } catch (Exception ex) {
                     ex.printStackTrace();
