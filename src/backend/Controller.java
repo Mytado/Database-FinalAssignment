@@ -94,7 +94,7 @@ public class Controller {
         return (result.length() > 0);
     }
 
-    public boolean book(int travelId, int seats)throws Exception {
+    public boolean book(int travelId, int seats, String email)throws Exception {
 
 
 
@@ -105,8 +105,25 @@ public class Controller {
              availableSeats = res.getInt(1);
         }
         if(seats <= availableSeats){
+            PreparedStatement beginStatement = con.prepareStatement("BEGIN");
+            beginStatement.execute();
+
             PreparedStatement updateStatement = con.prepareStatement("UPDATE Travel SET travel_seatsAvailable = travel_seatsAvailable - " + seats);
             updateStatement.execute();
+
+            PreparedStatement selectStatement = con.prepareStatement("SELECT customer_id FROM customer WHERE customer_email = ?");
+            selectStatement.setString(1, email);
+            ResultSet customerResult = selectStatement.executeQuery();
+            int customerId = 0;
+            while(customerResult.next()){
+                customerId = customerResult.getInt(1);
+            }
+
+            PreparedStatement bookingStatement = con.prepareStatement("INSERT INTO Booking (customer_id, travel_id, nbr_of_seats_booked) VALUES(?,?,?)");
+            bookingStatement.setInt(1, customerId);
+            bookingStatement.setInt(2, travelId);
+            bookingStatement.setInt(3, seats);
+            bookingStatement.execute();
 
             return true;
         }
