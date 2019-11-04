@@ -161,8 +161,8 @@ public class Controller {
     public void disconnect() {
         try {
             con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.exit(0);
         }
     }
 
