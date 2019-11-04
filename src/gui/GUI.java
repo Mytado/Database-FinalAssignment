@@ -97,7 +97,7 @@ public class GUI {
                         zipBoo = false;
                     }
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Invalid entry\n Make sure zip code is composed of numbers");
+                    JOptionPane.showMessageDialog(null, "Invalid entry\nMake sure zip code is composed of numbers");
                     zipBoo = false;
                 }
                 if (emailBoo && zipBoo) {
