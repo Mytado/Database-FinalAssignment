@@ -40,12 +40,12 @@ public class Controller {
         PreparedStatement statement = con.prepareStatement(query);
         ResultSet res = statement.executeQuery();
         while(res.next()){
-            result.append(res.getInt(1) + " "
-                    + res.getString(2) + " "
-                    + res.getString(3) + " "
-                    + res.getDate(4) + " "
-                    + res.getDate(5) + " "
-                    + res.getInt(6) + " "
+            result.append("Travel ID: " + res.getInt(1) + " From: "
+                    + res.getString(2) + " To: "
+                    + res.getString(3) + " Departure: "
+                    + res.getDate(4) + " Arrival: "
+                    + res.getDate(5) + " Price: "
+                    + res.getInt(6) + " seats Available: "
                     + res.getInt(7) + "\n");
         }
 
