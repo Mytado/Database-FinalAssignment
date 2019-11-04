@@ -138,6 +138,7 @@ public class GUI {
     private void setMainUI() {
         JPanel mainPanel = new JPanel(new BorderLayout());
         JTextArea tripsTA = new JTextArea();
+        tripsTA.setFont(new Font("monospaced", Font.PLAIN, 12));
         tripsTA.setEditable(false);
         mainPanel.add(tripsTA, BorderLayout.CENTER);
         JPanel searchPanel = new JPanel(new GridLayout(0,5));
@@ -147,17 +148,12 @@ public class GUI {
         JTextField toTF = new JTextField();
         JButton searchBtn = new JButton("Search");
         searchBtn.addActionListener(e -> {
-            if (!(fromTF.getText().isEmpty()) && !(toTF.getText().isEmpty())) {
                 try {
-                    tripsTA.setText("TRAVELID | FROM | DEPARTURE | ARRIVAL | PRICE | SEATS AVAILABLE\n");
+                    tripsTA.setText("");
                     tripsTA.append(controller.search(fromTF.getText(), toTF.getText()));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-            }
-            else {
-                JOptionPane.showMessageDialog(null, "Incomplete travel information, \nPlease fill out all fields");
-            }
         });
         searchPanel.add(fromLabel);
         searchPanel.add(fromTF);
@@ -200,7 +196,7 @@ public class GUI {
         mainFrame.add(mainPanel);
         mainFrame.revalidate();
         mainFrame.repaint();
-        mainFrame.setSize(new Dimension(500, 400));
+        mainFrame.setSize(new Dimension(800, 400));
 
     }
     public static void main(String[] args) {
