@@ -11,6 +11,7 @@ public class GUI {
     private Controller controller;
     private JFrame mainFrame;
     private String email = "";
+    private Boolean boo = false;
 
     public GUI(Controller controller) {
         this.controller = controller;
@@ -33,7 +34,6 @@ public class GUI {
 
             }
         });
-
     }
 
     private void setLoginUI() {
@@ -74,7 +74,7 @@ public class GUI {
         JTextField lastNameTF = new JTextField();
         JLabel addressLabel = new JLabel("Address:");
         JTextField addressTF = new JTextField();
-        JLabel zipLabel = new JLabel("Zip code");
+        JLabel zipLabel = new JLabel("Zip code (5 digits)");
         JTextField zipTF = new JTextField();
         JLabel cityLabel = new JLabel("City");
         JTextField cityTF = new JTextField();
@@ -86,13 +86,19 @@ public class GUI {
         JLabel blankLabel = new JLabel();
         registerBtn.addActionListener(e->{
             if (!(firstNameTF.getText().isEmpty()) && !(lastNameTF.getText().isEmpty()) && !(addressTF.getText().isEmpty()) && !(zipTF.getText().isEmpty()) && !(cityTF.getText().isEmpty()) && !(emailTF.getText().isEmpty())) {
-                try {
-                    controller.createAccount(firstNameTF.getText(), lastNameTF.getText(), addressTF.getText(), Integer.parseInt(zipTF.getText()), cityTF.getText(), emailTF.getText(), phoneTF.getText());
-                    email = emailTF.getText();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-                setMainUI();
+                    try {
+                        if (zipTF.getText().length() == 5)
+                        controller.createAccount(firstNameTF.getText(), lastNameTF.getText(), addressTF.getText(), Integer.parseInt(zipTF.getText()), cityTF.getText(), emailTF.getText(), phoneTF.getText());
+                        email = emailTF.getText();
+                        boo = true;
+
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Invalid entry\n Make sure zip code is composed of numbers");
+                        boo = false;
+                    }
+                    if (boo) {
+                        setMainUI();
+                    }
             }
             else {
                 JOptionPane.showMessageDialog(null, "Incomplete information");
@@ -155,6 +161,7 @@ public class GUI {
                     ex.printStackTrace();
                 }
         });
+
         searchPanel.add(fromLabel);
         searchPanel.add(fromTF);
         searchPanel.add(toLabel);
@@ -196,7 +203,7 @@ public class GUI {
         mainFrame.add(mainPanel);
         mainFrame.revalidate();
         mainFrame.repaint();
-        mainFrame.setSize(new Dimension(800, 400));
+        mainFrame.setSize(new Dimension(950, 400));
 
     }
     public static void main(String[] args) {
