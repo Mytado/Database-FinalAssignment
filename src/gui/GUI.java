@@ -87,10 +87,14 @@ public class GUI {
         registerBtn.addActionListener(e->{
             if (!(firstNameTF.getText().isEmpty()) && !(lastNameTF.getText().isEmpty()) && !(addressTF.getText().isEmpty()) && !(zipTF.getText().isEmpty()) && !(cityTF.getText().isEmpty()) && !(emailTF.getText().isEmpty())) {
                     try {
-                        if (zipTF.getText().length() == 5)
-                        controller.createAccount(firstNameTF.getText(), lastNameTF.getText(), addressTF.getText(), Integer.parseInt(zipTF.getText()), cityTF.getText(), emailTF.getText(), phoneTF.getText());
-                        email = emailTF.getText();
-                        boo = true;
+                            controller.createAccount(firstNameTF.getText(), lastNameTF.getText(), addressTF.getText(), Integer.parseInt(zipTF.getText()), cityTF.getText(), emailTF.getText(), phoneTF.getText());
+                            email = emailTF.getText();
+                        if (zipTF.getText().length() == 5) {
+                            boo = true;
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(null, "Your zip code is not 5 digits");
+                        }
 
                     } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, "Invalid entry\n Make sure zip code is composed of numbers");
