@@ -14,9 +14,7 @@ public class Controller {
         } catch (Exception e) {
             try {
                 con.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+            } catch (SQLException ex) { }
         }
     }
 
@@ -72,7 +70,6 @@ public class Controller {
             statement.setString(7, phoneNumber);
             statement.execute();
         } catch(Exception e) {
-            e.printStackTrace();
             disconnect();
             return false;
         }
@@ -173,7 +170,7 @@ public class Controller {
             System.out.println(c.book(1, 1, "Rick@gmail.com"));
             c.disconnect();
         } catch (Exception e) {
-            e.printStackTrace();
+
             c.disconnect();
         }
 
