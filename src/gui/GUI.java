@@ -175,7 +175,7 @@ public class GUI {
         bookingBtn.addActionListener(e -> {
             if (!(travelIDTF.getText().isEmpty()) && !(seatsTF.getText().isEmpty())) {
                 try {
-                    if(controller.book(Integer.parseInt(travelIDTF.getText()), Integer.parseInt(seatsTF.getText()))) {
+                    if(controller.book(Integer.parseInt(travelIDTF.getText()), Integer.parseInt(seatsTF.getText()), email)) {
                         JOptionPane.showMessageDialog(null, "We have registered your booking!");
                     }
                     else {
