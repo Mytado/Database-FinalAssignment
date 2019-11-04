@@ -12,7 +12,6 @@ public class GUI {
     private JFrame mainFrame;
     private String email = "";
     private Boolean emailBoo = false;
-    private Boolean zipBoo = false;
 
     public GUI(Controller controller) {
         this.controller = controller;
@@ -80,7 +79,7 @@ public class GUI {
         JButton registerBtn = new JButton("Register");
         JLabel blankLabel = new JLabel();
         registerBtn.addActionListener(e -> {
-            if (!(firstNameTF.getText().isEmpty()) && !(lastNameTF.getText().isEmpty()) && !(addressTF.getText().isEmpty()) && !(zipTF.getText().isEmpty()) && !(cityTF.getText().isEmpty()) && !(emailTF.getText().isEmpty())) {
+            if (!(firstNameTF.getText().isEmpty()) && !(lastNameTF.getText().isEmpty()) && !(addressTF.getText().isEmpty()) && !(zipTF.getText().isEmpty()) && !(cityTF.getText().isEmpty()) && !(emailTF.getText().isEmpty()) && zipTF.getText().length() == 5) {
                 try {
                    if (controller.createAccount(firstNameTF.getText(), lastNameTF.getText(), addressTF.getText(), Integer.parseInt(zipTF.getText()), cityTF.getText(), emailTF.getText(), phoneTF.getText())) {
                        email = emailTF.getText();
@@ -90,17 +89,10 @@ public class GUI {
                        JOptionPane.showMessageDialog(null, "Email already in use");
                        emailBoo = false;
                    }
-                    if (zipTF.getText().length() == 5) {
-                        zipBoo = true;
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Your zip code is not 5 digits");
-                        zipBoo = false;
-                    }
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Invalid entry\nMake sure zip code is composed of numbers");
-                    zipBoo = false;
                 }
-                if (emailBoo && zipBoo) {
+                if (emailBoo) {
                     setMainUI();
                 }
             } else {
