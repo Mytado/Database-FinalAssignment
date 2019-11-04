@@ -44,8 +44,8 @@ public class Controller {
                 result.append("Travel ID: " + res.getInt(1) + " From: "
                         + res.getString(2) + " To: "
                         + res.getString(3) + " Departure: "
-                        + res.getDate(4) + " Arrival: "
-                        + res.getDate(5) + " Price: "
+                        + res.getTimestamp(4) + " Arrival: "
+                        + res.getTimestamp(5) + " Price: "
                         + res.getInt(6) + " seats Available: "
                         + res.getInt(7) + "\n");
             }
