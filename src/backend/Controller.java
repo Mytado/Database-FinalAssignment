@@ -119,12 +119,14 @@ public class Controller {
                 customerId = customerResult.getInt(1);
             }
 
-            PreparedStatement bookingStatement = con.prepareStatement("INSERT INTO Booking (customer_id, travel_id, nbr_of_seats_booked) VALUES(?,?,?)");
+            PreparedStatement bookingStatement = con.prepareStatement("INSERT INTO Booking(customer_id, travel_id, nbr_of_seats_booked) VALUES(?,?,?)");
             bookingStatement.setInt(1, customerId);
             bookingStatement.setInt(2, travelId);
             bookingStatement.setInt(3, seats);
             bookingStatement.execute();
 
+            PreparedStatement commitStatement = con.prepareStatement("COMMIT");
+            commitStatement.execute();
             return true;
         }
 
@@ -144,7 +146,7 @@ public class Controller {
         Controller c = new Controller();
         try{
          //   c.createAccount("Erik", "testsson", "testgatan 1", 27614, "Malmoe", "test@test.se", "782346238746");
-            c.login("Rick@gmail.com");
+            System.out.println(c.book(1,1,"Rick@gmail.com"));
             c.disconnect();
         }catch (Exception e){
             e.printStackTrace();
