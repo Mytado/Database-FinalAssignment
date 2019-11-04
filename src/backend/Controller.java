@@ -36,6 +36,7 @@ public class Controller {
         if(to.length() > 0){
             query += "travel_To = " + "'"+to+"'";
         }
+        query += " ORDER BY travel_id";
 
         PreparedStatement statement = con.prepareStatement(query);
         ResultSet res = statement.executeQuery();
