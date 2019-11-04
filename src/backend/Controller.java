@@ -58,7 +58,7 @@ public class Controller {
         return result.toString();
     }
 
-    public void createAccount(String fname, String lname, String address, int zipcode, String city, String email, String phoneNumber) {
+    public boolean createAccount(String fname, String lname, String address, int zipcode, String city, String email, String phoneNumber) {
         connect();
         try {
             PreparedStatement statement = con.prepareStatement("INSERT INTO Customer (customer_fname, customer_lname, customer_address, customer_zipcode, customer_city, customer_email, customer_phoneNumber) " +
@@ -71,11 +71,13 @@ public class Controller {
             statement.setString(6, email);
             statement.setString(7, phoneNumber);
             statement.execute();
-        } catch(Exception e){
+        } catch(Exception e) {
+            e.printStackTrace();
             disconnect();
+            return false;
         }
         disconnect();
-
+        return true;
 
     }
 
