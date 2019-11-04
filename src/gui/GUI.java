@@ -148,24 +148,12 @@ public class GUI {
         JTextField toTF = new JTextField();
         JButton searchBtn = new JButton("Search");
         searchBtn.addActionListener(e -> {
-            if (!(fromTF.getText().isEmpty()) && !(toTF.getText().isEmpty())) {
                 try {
-                    tripsTA.setText("TRAVELID | FROM | TO | DEPARTURE | ARRIVAL | PRICE | SEATS AVAILABLE\n");
-                    String res = controller.search(fromTF.getText(), toTF.getText());
-                    String[] resDisplay = res.split(" ");
-                    for (int i = 1; i < resDisplay.length; i++) {
-                        tripsTA.append(formatString(resDisplay[i], 5));
-                        if (i%7 == 0) {
-                            tripsTA.append("\n");
-                        }
-                    }
+                    tripsTA.setText("");
+                    tripsTA.append(controller.search(fromTF.getText(), toTF.getText()));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-            }
-            else {
-                JOptionPane.showMessageDialog(null, "Incomplete travel information, \nPlease fill out all fields");
-            }
         });
         searchPanel.add(fromLabel);
         searchPanel.add(fromTF);
@@ -208,19 +196,9 @@ public class GUI {
         mainFrame.add(mainPanel);
         mainFrame.revalidate();
         mainFrame.repaint();
-        mainFrame.setSize(new Dimension(500, 400));
+        mainFrame.setSize(new Dimension(800, 400));
 
     }
-
-    private String formatString(String str, int size) {
-        if (str.length() < size) {
-            for (int i = str.length(); i < size; i++) {
-                str +=" ";
-            }
-        }
-        return str;
-    }
-
     public static void main(String[] args) {
         Controller c = new Controller();
         GUI gui = new GUI(c);
