@@ -188,7 +188,7 @@ public class GUI {
         mainFrame.add(mainPanel);
         mainFrame.revalidate();
         mainFrame.repaint();
-        mainFrame.setSize(new Dimension(950, 400));
+        mainFrame.setSize(new Dimension(1050, 400));
 
     }
 
