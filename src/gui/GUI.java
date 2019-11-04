@@ -138,6 +138,7 @@ public class GUI {
     private void setMainUI() {
         JPanel mainPanel = new JPanel(new BorderLayout());
         JTextArea tripsTA = new JTextArea();
+        tripsTA.setFont(new Font("monospaced", Font.PLAIN, 12));
         tripsTA.setEditable(false);
         mainPanel.add(tripsTA, BorderLayout.CENTER);
         JPanel searchPanel = new JPanel(new GridLayout(0,5));
@@ -149,8 +150,15 @@ public class GUI {
         searchBtn.addActionListener(e -> {
             if (!(fromTF.getText().isEmpty()) && !(toTF.getText().isEmpty())) {
                 try {
-                    tripsTA.setText("TRAVELID | FROM | DEPARTURE | ARRIVAL | PRICE | SEATS AVAILABLE\n");
-                    tripsTA.append(controller.search(fromTF.getText(), toTF.getText()));
+                    tripsTA.setText("TRAVELID | FROM | TO | DEPARTURE | ARRIVAL | PRICE | SEATS AVAILABLE\n");
+                    String res = controller.search(fromTF.getText(), toTF.getText());
+                    String[] resDisplay = res.split(" ");
+                    for (int i = 1; i < resDisplay.length; i++) {
+                        tripsTA.append(formatString(resDisplay[i], 5));
+                        if (i%7 == 0) {
+                            tripsTA.append("\n");
+                        }
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -203,6 +211,16 @@ public class GUI {
         mainFrame.setSize(new Dimension(500, 400));
 
     }
+
+    private String formatString(String str, int size) {
+        if (str.length() < size) {
+            for (int i = str.length(); i < size; i++) {
+                str +=" ";
+            }
+        }
+        return str;
+    }
+
     public static void main(String[] args) {
         Controller c = new Controller();
         GUI gui = new GUI(c);
