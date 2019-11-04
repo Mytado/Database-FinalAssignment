@@ -100,9 +100,13 @@ public class Controller {
 
         PreparedStatement statement = con.prepareStatement("SELECT travel_seatsAvailable FROM Travel WHERE travel_id = " + travelId);
         ResultSet res = statement.executeQuery();
-        int availableSeats = res.getInt(1);
+        int availableSeats = 0;
+        while(res.next()) {
+             availableSeats = res.getInt(1);
+        }
         if(seats <= availableSeats){
             PreparedStatement updateStatement = con.prepareStatement("UPDATE Travel SET travel_seatsAvailable = travel_seatsAvailable - " + seats);
+            updateStatement.execute();
 
             return true;
         }
