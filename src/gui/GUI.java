@@ -11,7 +11,8 @@ public class GUI {
     private Controller controller;
     private JFrame mainFrame;
     private String email = "";
-    private Boolean boo = false;
+    private Boolean emailBoo = false;
+    private Boolean zipBoo = false;
 
     public GUI(Controller controller) {
         this.controller = controller;
@@ -83,23 +84,23 @@ public class GUI {
                 try {
                    if (controller.createAccount(firstNameTF.getText(), lastNameTF.getText(), addressTF.getText(), Integer.parseInt(zipTF.getText()), cityTF.getText(), emailTF.getText(), phoneTF.getText())) {
                        email = emailTF.getText();
-                       boo = true;
+                       emailBoo = true;
                    }
                    else {
                        JOptionPane.showMessageDialog(null, "Email already in use");
-                       boo = false;
+                       emailBoo = false;
                    }
                     if (zipTF.getText().length() == 5) {
-                        boo = true;
+                        zipBoo = true;
                     } else {
                         JOptionPane.showMessageDialog(null, "Your zip code is not 5 digits");
-                        boo = false;
+                        zipBoo = false;
                     }
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Invalid entry\n Make sure zip code is composed of numbers");
-                    boo = false;
+                    zipBoo = false;
                 }
-                if (boo) {
+                if (emailBoo && zipBoo) {
                     setMainUI();
                 }
             } else {
