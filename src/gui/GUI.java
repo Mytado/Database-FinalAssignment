@@ -37,23 +37,17 @@ public class GUI {
     }
 
     private void setLoginUI() {
-        JPanel loginPanel = new JPanel(new GridLayout(3,0));
+        JPanel loginPanel = new JPanel(new GridLayout(3, 0));
         JLabel loginLabel = new JLabel("Enter your email address");
         JTextField loginTF = new JTextField();
         JButton loginBtn = new JButton("Login");
         loginBtn.addActionListener(e -> {
-            try {
                 if (!(loginTF.getText().isEmpty()) && controller.login(loginTF.getText())) {
                     email = loginTF.getText();
                     setMainUI();
-                }
-                else {
+                } else {
                     JOptionPane.showMessageDialog(null, "Invalid email address");
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-
         });
 
         loginPanel.add(loginLabel);
@@ -67,7 +61,7 @@ public class GUI {
     }
 
     private void setRegisterUI() {
-        JPanel registerPanel = new JPanel(new GridLayout(9,2));
+        JPanel registerPanel = new JPanel(new GridLayout(9, 2));
         JLabel firstNameLabel = new JLabel("First name:");
         JTextField firstNameTF = new JTextField();
         JLabel lastNameLabel = new JLabel("Last name:");
@@ -84,31 +78,27 @@ public class GUI {
         JTextField phoneTF = new JTextField();
         JButton registerBtn = new JButton("Register");
         JLabel blankLabel = new JLabel();
-        registerBtn.addActionListener(e->{
+        registerBtn.addActionListener(e -> {
             if (!(firstNameTF.getText().isEmpty()) && !(lastNameTF.getText().isEmpty()) && !(addressTF.getText().isEmpty()) && !(zipTF.getText().isEmpty()) && !(cityTF.getText().isEmpty()) && !(emailTF.getText().isEmpty())) {
-                    try {
-                            controller.createAccount(firstNameTF.getText(), lastNameTF.getText(), addressTF.getText(), Integer.parseInt(zipTF.getText()), cityTF.getText(), emailTF.getText(), phoneTF.getText());
-                            email = emailTF.getText();
-                        if (zipTF.getText().length() == 5) {
-                            boo = true;
-                        }
-                        else {
-                            JOptionPane.showMessageDialog(null, "Your zip code is not 5 digits");
-                        }
-
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, "Invalid entry\n Make sure zip code is composed of numbers");
-                        boo = false;
+                try {
+                    controller.createAccount(firstNameTF.getText(), lastNameTF.getText(), addressTF.getText(), Integer.parseInt(zipTF.getText()), cityTF.getText(), emailTF.getText(), phoneTF.getText());
+                    email = emailTF.getText();
+                    if (zipTF.getText().length() == 5) {
+                        boo = true;
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Your zip code is not 5 digits");
                     }
-                    if (boo) {
-                        setMainUI();
-                    }
-            }
-            else {
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Invalid entry\n Make sure zip code is composed of numbers");
+                    boo = false;
+                }
+                if (boo) {
+                    setMainUI();
+                }
+            } else {
                 JOptionPane.showMessageDialog(null, "Incomplete information");
             }
         });
-
         registerPanel.add(firstNameLabel);
         registerPanel.add(firstNameTF);
         registerPanel.add(lastNameLabel);
@@ -133,7 +123,7 @@ public class GUI {
     }
 
     private JPanel startUI() {
-        JPanel startPanel = new JPanel(new GridLayout(2,0));
+        JPanel startPanel = new JPanel(new GridLayout(2, 0));
         JButton loginBtn = new JButton("Login");
         startPanel.add(loginBtn);
         JButton registerBtn = new JButton("Register");
@@ -151,19 +141,16 @@ public class GUI {
         tripsTA.setFont(new Font("monospaced", Font.PLAIN, 12));
         tripsTA.setEditable(false);
         mainPanel.add(tripsTA, BorderLayout.CENTER);
-        JPanel searchPanel = new JPanel(new GridLayout(0,5));
+        JPanel searchPanel = new JPanel(new GridLayout(0, 5));
         JLabel fromLabel = new JLabel("From:");
         JTextField fromTF = new JTextField();
         JLabel toLabel = new JLabel("To:");
         JTextField toTF = new JTextField();
         JButton searchBtn = new JButton("Search");
         searchBtn.addActionListener(e -> {
-                try {
-                    tripsTA.setText("");
-                    tripsTA.append(controller.search(fromTF.getText(), toTF.getText()));
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                tripsTA.setText("");
+                tripsTA.append(controller.search(fromTF.getText(), toTF.getText()));
+
         });
 
         searchPanel.add(fromLabel);
@@ -173,7 +160,7 @@ public class GUI {
         searchPanel.add(searchBtn);
         mainPanel.add(searchPanel, BorderLayout.NORTH);
 
-        JPanel bookingPanel = new JPanel(new GridLayout(0,5));
+        JPanel bookingPanel = new JPanel(new GridLayout(0, 5));
         JLabel travelIDLabel = new JLabel("TravelID:");
         JTextField travelIDTF = new JTextField();
         JLabel seatsLabel = new JLabel("Amount of seats:");
@@ -181,18 +168,12 @@ public class GUI {
         JButton bookingBtn = new JButton("Book");
         bookingBtn.addActionListener(e -> {
             if (!(travelIDTF.getText().isEmpty()) && !(seatsTF.getText().isEmpty())) {
-                try {
-                    if(controller.book(Integer.parseInt(travelIDTF.getText()), Integer.parseInt(seatsTF.getText()), email)) {
+                    if (controller.book(Integer.parseInt(travelIDTF.getText()), Integer.parseInt(seatsTF.getText()), email)) {
                         JOptionPane.showMessageDialog(null, "We have registered your booking!");
-                    }
-                    else {
+                    } else {
                         JOptionPane.showMessageDialog(null, "Unfortunately the amount of seats selected is not available on this trip\nPlease select a lower amount");
                     }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-            else {
+            } else {
                 JOptionPane.showMessageDialog(null, "Incomplete travel information, \nPlease enter numbers only");
             }
         });
@@ -210,6 +191,7 @@ public class GUI {
         mainFrame.setSize(new Dimension(950, 400));
 
     }
+
     public static void main(String[] args) {
         Controller c = new Controller();
         GUI gui = new GUI(c);
