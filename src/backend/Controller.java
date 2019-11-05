@@ -135,7 +135,7 @@ public class Controller {
                 customerId = customerResult.getInt(1);
             }
 
-            PreparedStatement bookingStatement = con.prepareStatement("INSERT INTO Booking(customer_id, travel_id, nbr_of_seats_booked) VALUES(?,?,?)");
+            PreparedStatement bookingStatement = con.prepareStatement("INSERT INTO CustomerTravel(customer_id, travel_id, nbr_of_seats_booked) VALUES(?,?,?)");
             bookingStatement.setInt(1, customerId);
             bookingStatement.setInt(2, travelId);
             bookingStatement.setInt(3, seats);
