@@ -124,7 +124,7 @@ public class Controller {
             PreparedStatement beginStatement = con.prepareStatement("BEGIN");
             beginStatement.execute();
 
-            PreparedStatement updateStatement = con.prepareStatement("UPDATE Travel SET travel_seatsAvailable = travel_seatsAvailable - " + seats + "WHERE travel_id = " + travelId);
+            PreparedStatement updateStatement = con.prepareStatement("UPDATE Travel SET travel_seatsAvailable = travel_seatsAvailable - " + seats + " WHERE travel_id = " + travelId);
             updateStatement.execute();
 
             PreparedStatement selectStatement = con.prepareStatement("SELECT customer_id FROM customer WHERE customer_email = ?");
