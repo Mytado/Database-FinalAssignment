@@ -166,17 +166,22 @@ public class GUI {
         JLabel seatsLabel = new JLabel("Amount of seats:");
         JTextField seatsTF = new JTextField();
         JButton bookingBtn = new JButton("Book");
-        bookingBtn.addActionListener(e -> {
-            if (!(travelIDTF.getText().isEmpty()) && !(seatsTF.getText().isEmpty())) {
-                    if (controller.book(Integer.parseInt(travelIDTF.getText()), Integer.parseInt(seatsTF.getText()), email)) {
-                        JOptionPane.showMessageDialog(null, "We have registered your booking!");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Unfortunately the amount of seats selected is not available on this trip\nPlease select a lower amount");
-                    }
-            } else {
-                JOptionPane.showMessageDialog(null, "Incomplete travel information, \nPlease enter numbers only");
-            }
-        });
+       try {
+           bookingBtn.addActionListener(e -> {
+               if (!(travelIDTF.getText().isEmpty()) && !(seatsTF.getText().isEmpty())) {
+
+                   if (controller.book(Integer.parseInt(travelIDTF.getText()), Integer.parseInt(seatsTF.getText()), email)) {
+                       JOptionPane.showMessageDialog(null, "We have registered your booking!");
+                   } else {
+                       JOptionPane.showMessageDialog(null, "Unfortunately the amount of seats selected is not available on this trip\nPlease select a lower amount");
+                   }
+               } else {
+                   JOptionPane.showMessageDialog(null, "Incomplete travel information, \nPlease enter numbers only");
+               }
+           });
+       } catch (Exception e) {
+           JOptionPane.showMessageDialog(null,"Invalid entry\nPlease enter numbers when booking");
+       }
         bookingPanel.add(travelIDLabel);
         bookingPanel.add(travelIDTF);
         bookingPanel.add(seatsLabel);
