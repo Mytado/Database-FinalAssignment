@@ -179,7 +179,6 @@ public class GUI {
                    JOptionPane.showMessageDialog(null, "Incomplete travel information, \nPlease enter numbers only");
                }
                } catch (Exception ex) {
-                   ex.printStackTrace();
                    JOptionPane.showMessageDialog(null,"Invalid entry\nPlease enter numbers when booking");
                }
            });
