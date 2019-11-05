@@ -166,8 +166,8 @@ public class GUI {
         JLabel seatsLabel = new JLabel("Amount of seats:");
         JTextField seatsTF = new JTextField();
         JButton bookingBtn = new JButton("Book");
-       try {
            bookingBtn.addActionListener(e -> {
+               try {
                if (!(travelIDTF.getText().isEmpty()) && !(seatsTF.getText().isEmpty())) {
 
                    if (controller.book(Integer.parseInt(travelIDTF.getText()), Integer.parseInt(seatsTF.getText()), email)) {
@@ -178,11 +178,12 @@ public class GUI {
                } else {
                    JOptionPane.showMessageDialog(null, "Incomplete travel information, \nPlease enter numbers only");
                }
+               } catch (Exception ex) {
+                   ex.printStackTrace();
+                   JOptionPane.showMessageDialog(null,"Invalid entry\nPlease enter numbers when booking");
+               }
            });
-       } catch (Exception e) {
-           e.printStackTrace();
-           JOptionPane.showMessageDialog(null,"Invalid entry\nPlease enter numbers when booking");
-       }
+
         bookingPanel.add(travelIDLabel);
         bookingPanel.add(travelIDTF);
         bookingPanel.add(seatsLabel);
