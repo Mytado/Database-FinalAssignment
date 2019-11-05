@@ -180,6 +180,7 @@ public class GUI {
                }
            });
        } catch (Exception e) {
+           e.printStackTrace();
            JOptionPane.showMessageDialog(null,"Invalid entry\nPlease enter numbers when booking");
        }
         bookingPanel.add(travelIDLabel);
