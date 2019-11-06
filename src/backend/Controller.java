@@ -61,7 +61,6 @@ public class Controller {
         }
 
         query += " ORDER BY travel_id";
-        System.out.println(query + "dab");
         connect();
         try {
             PreparedStatement statement = con.prepareStatement(query);
