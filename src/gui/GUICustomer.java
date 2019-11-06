@@ -166,11 +166,10 @@ public class GUICustomer {
                             tripsTA.append(controller.search(fromTF.getText(), toTF.getText(), Integer.parseInt(fromPriceTF.getText()), -1, departureTF.getText(), arrivalTF.getText()));
                         }
                     else if (fromPriceTF.getText().isEmpty() && toPriceTF.getText().isEmpty()){
-                        tripsTA.append(controller.search(fromTF.getText(), toTF.getText(), -1, -1, departureTF.getText(), arrivalTF.getText()));
+                            tripsTA.append(controller.search(fromTF.getText(), toTF.getText(), -1, -1, departureTF.getText(), arrivalTF.getText()));
                     }
                     else if (!(fromPriceTF.getText().isEmpty()) && !(toPriceTF.getText().isEmpty())) {
                         tripsTA.append(controller.search(fromTF.getText(), toTF.getText(), Integer.parseInt(fromPriceTF.getText()), Integer.parseInt(toPriceTF.getText()), departureTF.getText(), arrivalTF.getText()));
-
                     }
                 }
                 catch (Exception ex) {

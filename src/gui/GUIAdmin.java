@@ -20,8 +20,7 @@ public class GUIAdmin {
 
     private void setup() {
         mainFrame = new JFrame("Admin");
-        mainFrame.setSize(new Dimension(250, 200));
-        mainFrame.pack();
+        //mainFrame.pack();
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setResizable(false);
         mainFrame.setVisible(true);
@@ -33,32 +32,49 @@ public class GUIAdmin {
 
             }
         });
+        mainFrame.setSize(new Dimension(1400, 800));
+        setStartUI();
     }
 
     private void setStartUI() {
         JPanel startPanel = new JPanel(new BorderLayout());
+        JTextArea centerTA = new JTextArea();
+        //centerTA.setSize(new Dimension(700, 600));
+        startPanel.add(centerTA, BorderLayout.CENTER);
         JButton customerBtn = new JButton("Show customers");
-        //customerBtn.addActionListener(e ->);
+        customerBtn.addActionListener(e -> {
+            currentTable = "customer";
+            centerTA.setText("");
+            centerTA.append(controller.showInfo(currentTable));
+        } );
         JButton bookingsBtn = new JButton("Show bookings");
-        //bookingsBtn.addActionListener(e ->);
+        bookingsBtn.addActionListener(e -> {
+            currentTable = "customertravel";
+            centerTA.setText("");
+            centerTA.append(controller.showInfo(currentTable));
+        });
         JButton tripsBtn = new JButton("Show trips");
-        //tripsBtn.addActionListener(e ->);
+        tripsBtn.addActionListener(e -> {
+            currentTable = "travel";
+            centerTA.setText("");
+            centerTA.append(controller.showInfo(currentTable));
+        });
         JButton citiesBtn = new JButton("Show cities");
-        //citiesBtn.addActionListener(e ->);
+        citiesBtn.addActionListener(e -> {
+            currentTable = "city";
+            centerTA.setText("");
+            centerTA.append(controller.showInfo(currentTable));
+        });
 
-        JPanel buttonPanel = new JPanel(new GridLayout(4,0));
+        JPanel buttonPanel = new JPanel(new GridLayout(4, 0));
         buttonPanel.add(customerBtn);
         buttonPanel.add(bookingsBtn);
         buttonPanel.add(tripsBtn);
         buttonPanel.add(citiesBtn);
         startPanel.add(buttonPanel, BorderLayout.NORTH);
 
-        JPanel centerPanel = new JPanel(new BorderLayout());
-        JTextArea centerTA = new JTextArea();
-        centerPanel.add(centerTA, BorderLayout.CENTER);
-        startPanel.add(centerPanel, BorderLayout.CENTER);
 
-        JPanel updateDeletePanel = new JPanel(new GridLayout(2, 7));
+        JPanel updateDeletePanel = new JPanel(new GridLayout(3, 3));
         JLabel updateLabel = new JLabel("Enter customer-/booking-/travel-id or city name of the one you want to update");
         JTextField primaryKeyTF = new JTextField();
         JLabel attributeLabel = new JLabel("Enter which fields you want to update separated by ','");
@@ -68,16 +84,30 @@ public class GUIAdmin {
         JButton updateButton = new JButton("Update");
         updateButton.addActionListener(e -> {
             if (!(primaryKeyTF.getText().isEmpty()) && !(attributeTF.getText().isEmpty()) && !(newInfoTF.getText().isEmpty())) {
-                controller.update(currentTable, primaryKeyTF.getText(), attributeTF.getText(), newInfoTF.getText());
-            }
-            else {
+
+                if (controller.update(currentTable, primaryKeyTF.getText(), attributeTF.getText(), newInfoTF.getText())) {
+                    JOptionPane.showMessageDialog(null, "The data has been updated");
+                }
+                else {
+                    JOptionPane.showMessageDialog(null,"Invalid entries in update fields");
+                }
+            } else {
                 JOptionPane.showMessageDialog(null, "Incompltete update information\nPlease fill in all update text fields");
             }
         });
         JLabel deleteLabel = new JLabel("Enter customer-/booking-/travel-id or city name of the one you want to delete");
         JTextField deleteTF = new JTextField();
         JButton deleteButton = new JButton("Delete");
-        //deleteButton.addActionListener(e ->);
+        deleteButton.addActionListener(e -> {
+            if (!(deleteTF.getText().isEmpty())) {
+                if (controller.delete(currentTable, deleteTF.getText() )) {
+                    JOptionPane.showMessageDialog(null, "The data has been deleted");
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Invalid entry in delete field");
+                }
+            }
+        });
 
         updateDeletePanel.add(updateLabel);
         updateDeletePanel.add(primaryKeyTF);
@@ -93,8 +123,15 @@ public class GUIAdmin {
         startPanel.add(updateDeletePanel, BorderLayout.SOUTH);
 
         mainFrame.add(startPanel);
-        mainFrame.setSize(new Dimension(250, 200));
     }
 
+    public static void main(String[] args) {
+        AdminController c = new AdminController();
+        GUIAdmin GUIAdmin = new GUIAdmin(c);
 
+    }
 }
+
+
+
+
