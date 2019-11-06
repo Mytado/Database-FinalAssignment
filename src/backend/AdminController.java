@@ -10,7 +10,6 @@ public class AdminController {
         String[] attributeQueries = attributes.split(",");
         String[] newValueQueries = newValues.split(",");
         String pk = "";
-        boolean resOk = true;
 
         if (table.toLowerCase() == "customer") {
             pk = "customer_id";
@@ -23,14 +22,17 @@ public class AdminController {
         }
 
         if (pk == "") {
-            resOk = false;
-            return resOk;
+            return false;
         }
 
         for (int i = 0; i < attributeQueries.length; i++) {
             try {
-                //fixa statement till 2 istället föär attribui8t
-                PreparedStatement statement = con.prepareStatement("UPDATE "  + table + " SET " + attributeQueries[i] + " = " + newValueQueries[i] + " WHERE " + pk + " = " + primaryKey + ";");
+                PreparedStatement statement = con.prepareStatement("UPDATE ? SET ? = ? WHERE LOWER(?) = LOWER(?);");
+                statement.setString(1, table);
+                statement.setString(2, attributeQueries[i]);
+                statement.setString(3, newValueQueries[i]);
+                statement.setString(4, pk);
+                statement.setString(5, primaryKey);
                 statement.execute();
 
             } catch (SQLException e) {
@@ -40,8 +42,7 @@ public class AdminController {
             }
         }
         disconnect();
-        resOk = true;
-        return resOk;
+        return true;
     }
 
 
