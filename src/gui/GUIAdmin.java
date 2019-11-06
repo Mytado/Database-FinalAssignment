@@ -74,7 +74,7 @@ public class GUIAdmin {
         startPanel.add(buttonPanel, BorderLayout.NORTH);
 
 
-        JPanel updateDeletePanel = new JPanel(new GridLayout(5, 2));
+        JPanel updateDeletePanel = new JPanel(new GridLayout(6, 2));
         JLabel updateLabel = new JLabel("Enter customer-/booking-/travel-id or city name of the one you want to update");
         JTextField primaryKeyTF = new JTextField();
         JLabel attributeLabel = new JLabel("Enter which fields you want to update separated by ','");
@@ -82,6 +82,7 @@ public class GUIAdmin {
         JLabel newInfoLabel = new JLabel("Enter the new values separated by ','");
         JTextField newInfoTF = new JTextField();
         JButton updateButton = new JButton("Update");
+        JLabel blanklbl1 = new JLabel();
         updateButton.addActionListener(e -> {
             if (!(primaryKeyTF.getText().isEmpty()) && !(attributeTF.getText().isEmpty()) && !(newInfoTF.getText().isEmpty())) {
 
@@ -116,6 +117,7 @@ public class GUIAdmin {
         updateDeletePanel.add(newInfoLabel);
         updateDeletePanel.add(newInfoTF);
         updateDeletePanel.add(updateButton);
+        updateDeletePanel.add(blanklbl1);
         updateDeletePanel.add(deleteLabel);
         updateDeletePanel.add(deleteTF);
         updateDeletePanel.add(deleteButton);
