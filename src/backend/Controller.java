@@ -17,22 +17,35 @@ public class Controller {
         }
     }
 
-    public String search(String from, String to) {
+    public String search(String from, String to, int fromPrice, int toPrice, String fromDate, String toDate) {
         StringBuffer result = new StringBuffer();
 
         String query = "SELECT travel_id, travel_from, travel_to, travel_departure, travel_arrival, travel_price, travel_seatsAvailable FROM Travel";
-        if (from.length() > 0 || to.length() > 0) {
+        if ((from.length() > 0 || to.length() > 0) || (fromPrice > 0 || toPrice > 0) || (fromDate.length() > 0 || toDate.length() > 0)) {
             query += " WHERE ";
         }
         if (from.length() > 0) {
-            query += "travel_From = " + "'" + from + "'";
+            query += "LOWER(travel_From) LIKE " + "LOWER('%" + from + "%')";
         }
         if (from.length() > 0 && to.length() > 0) {
             query += " AND ";
         }
         if (to.length() > 0) {
-            query += "travel_To = " + "'" + to + "'";
+            query += "LOWER(travel_To) LIKE " + "LOWER('%" + to + "%')";
         }
+        if((from.length() > 0 || to.length() > 0) && (fromPrice > 0 || toPrice > 0)) {
+            query += " AND ";
+        }
+        if(fromPrice > 0){
+            query += "travel_price >= " + fromPrice;
+        }
+        if(fromPrice > 0 && toPrice > 0){
+            query += " AND ";
+        }
+        if(toPrice > 0) {
+            
+        }
+
         query += " ORDER BY travel_id";
 
         connect();
@@ -95,7 +108,7 @@ public class Controller {
     public boolean login(String email)  {
         connect();
         try {
-            PreparedStatement statement = con.prepareStatement("SELECT customer_email FROM Customer WHERE customer_email = ?");
+            PreparedStatement statement = con.prepareStatement("SELECT customer_email FROM Customer WHERE LOWER(customer_email) = LOWER(?)");
             statement.setString(1, email);
             ResultSet res = statement.executeQuery();
             String result = "";
