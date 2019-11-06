@@ -45,7 +45,7 @@ public class Controller {
         if(toPrice > 0) {
             query += "travel_price <= " + toPrice;
         }
-        if((from.length() > 0 || to.length() > 0) || (fromPrice > 0 || toPrice > 0) && (fromDate.length() > 0 || toDate.length() > 0)){
+        if(((from.length() > 0 || to.length() > 0) || (fromPrice > 0 || toPrice > 0)) && (fromDate.length() > 0 || toDate.length() > 0)){
             query += " AND ";
         }
         if(fromDate.length() > 0){
