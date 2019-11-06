@@ -43,7 +43,7 @@ public class Controller {
             query += " AND ";
         }
         if(toPrice > 0) {
-            query += "travel_price <=" + toPrice;
+            query += "travel_price <= " + toPrice;
         }
         if((from.length() > 0 || to.length() > 0) || (fromPrice > 0 || toPrice > 0) && (fromDate.length() > 0 || toDate.length() > 0)){
             query += " AND ";
@@ -61,7 +61,7 @@ public class Controller {
         }
 
         query += " ORDER BY travel_id";
-
+        System.out.println(query + "dab");
         connect();
         try {
             PreparedStatement statement = con.prepareStatement(query);
