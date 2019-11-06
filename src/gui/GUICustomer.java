@@ -141,20 +141,21 @@ public class GUICustomer {
         tripsTA.setFont(new Font("monospaced", Font.PLAIN, 12));
         tripsTA.setEditable(false);
         mainPanel.add(tripsTA, BorderLayout.CENTER);
-        JPanel searchPanel = new JPanel(new GridLayout(1, 5));
+        JPanel searchPanel = new JPanel(new GridLayout(4, 6));
         JLabel fromLabel = new JLabel("From:");
         JTextField fromTF = new JTextField();
         JLabel toLabel = new JLabel("To:");
         JTextField toTF = new JTextField();
         JButton searchBtn = new JButton("Search");
-        JLabel departureLabel = new JLabel("Departure(YYYY-MM-DD,HH:MM):");
+        JLabel departureLabel = new JLabel("Departure:");
         JTextField departureTF = new JTextField();
-        JLabel arrivalLabel = new JLabel("Arrival(YYYY-MM-DD,HH:MM)");
+        JLabel arrivalLabel = new JLabel("Arrival");
         JTextField arrivalTF = new JTextField();
         JLabel fromPriceLabel = new JLabel("Price lowest:");
         JTextField fromPriceTF = new JTextField();
         JLabel toPriceLabel = new JLabel("Price highest:");
         JTextField toPriceTF = new JTextField();
+        JLabel formatLable = new JLabel("Arrival/Departure format: YYYY-MM-DD,HH:MM");
         searchBtn.addActionListener(e -> {
                 tripsTA.setText("");
                 try {
@@ -185,6 +186,7 @@ public class GUICustomer {
         searchPanel.add(fromPriceTF);
         searchPanel.add(toPriceLabel);
         searchPanel.add(toPriceTF);
+        searchPanel.add(formatLable);
         searchPanel.add(searchBtn);
         mainPanel.add(searchPanel, BorderLayout.NORTH);
 
@@ -222,7 +224,7 @@ public class GUICustomer {
         mainFrame.add(mainPanel);
         mainFrame.revalidate();
         mainFrame.repaint();
-        mainFrame.setSize(new Dimension(1050, 400));
+        mainFrame.setSize(new Dimension(1300, 800));
 
     }
 
