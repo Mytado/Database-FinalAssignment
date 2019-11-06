@@ -1,5 +1,6 @@
 package gui;
 
+import backend.AdminController;
 import backend.Controller;
 
 import javax.swing.*;
@@ -8,12 +9,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class GUIAdmin {
-    private Controller controller;
+    private AdminController controller;
     private JFrame mainFrame;
     private String currentTable;
 
-
-    public GUIAdmin(Controller controller) {
+    public GUIAdmin(AdminController controller) {
         this.controller = controller;
         setup();
     }
@@ -66,7 +66,14 @@ public class GUIAdmin {
         JLabel newInfoLabel = new JLabel("Enter the new values separated by ','");
         JTextField newInfoTF = new JTextField();
         JButton updateButton = new JButton("Update");
-        //updateButton.addActionListener(e ->);
+        updateButton.addActionListener(e -> {
+            if (!(primaryKeyTF.getText().isEmpty()) && !(attributeTF.getText().isEmpty()) && !(newInfoTF.getText().isEmpty())) {
+                controller.update(currentTable, primaryKeyTF.getText(), attributeTF.getText(), newInfoTF.getText());
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Incompltete update information\nPlease fill in all update text fields");
+            }
+        });
         JLabel deleteLabel = new JLabel("Enter customer-/booking-/travel-id or city name of the one you want to delete");
         JTextField deleteTF = new JTextField();
         JButton deleteButton = new JButton("Delete");

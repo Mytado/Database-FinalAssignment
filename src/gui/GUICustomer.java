@@ -147,25 +147,36 @@ public class GUICustomer {
         JLabel toLabel = new JLabel("To:");
         JTextField toTF = new JTextField();
         JButton searchBtn = new JButton("Search");
+        JLabel departureLabel = new JLabel("Departure(YYYY-MM-DD,HH:MM):");
+        JTextField departureTF = new JTextField();
+        JLabel arrivalLabel = new JLabel("Arrival(YYYY-MM-DD,HH:MM)");
+        JTextField arrivalTF = new JTextField();
+        JLabel fromPriceLabel = new JLabel("Price lowest:");
+        JTextField fromPriceTF = new JTextField();
+        JLabel toPriceLabel = new JLabel("Price highest:");
+        JTextField toPriceTF = new JTextField();
         searchBtn.addActionListener(e -> {
                 tripsTA.setText("");
-                tripsTA.append(controller.search(fromTF.getText(), toTF.getText()));
-
+                try {
+                    if (fromPriceTF.getText().isEmpty() && !(toPriceTF.getText().isEmpty())) {
+                        tripsTA.append(controller.search(fromTF.getText(), toTF.getText(), -1, Integer.parseInt(toPriceTF.getText()), departureTF.getText(), arrivalTF.getText()));
+                    }
+                    else if (!(fromPriceTF.getText().isEmpty()) && toPriceTF.getText().isEmpty()) {
+                            tripsTA.append(controller.search(fromTF.getText(), toTF.getText(), Integer.parseInt(fromPriceTF.getText()), -1, departureTF.getText(), arrivalTF.getText()));
+                        }
+                    else if (fromPriceTF.getText().isEmpty() && toPriceTF.getText().isEmpty()){
+                        tripsTA.append(controller.search(fromTF.getText(), toTF.getText(), -1, -1, departureTF.getText(), arrivalTF.getText()));
+                    }
+                }
+                catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Only digits are allowed in the price fields");
+                }
         });
-        JLabel departureLabel = new JLabel("Departure");
-        JTextField departureTF = new JTextField();
-        JLabel arrivalLabel = new JLabel("Arrival");
-        JTextField arrivalTF = new JTextField();
-        JLabel fromPriceLabel = new JLabel("Price lowest");
-        JTextField fromPriceTF = new JTextField();
-        JLabel toPriceLabel = new JLabel("Price highest");
-        JTextField toPriceTF = new JTextField();
 
         searchPanel.add(fromLabel);
         searchPanel.add(fromTF);
         searchPanel.add(toLabel);
         searchPanel.add(toTF);
-        searchPanel.add(searchBtn);
         searchPanel.add(departureLabel);
         searchPanel.add(departureTF);
         searchPanel.add(arrivalLabel);
@@ -174,6 +185,7 @@ public class GUICustomer {
         searchPanel.add(fromPriceTF);
         searchPanel.add(toPriceLabel);
         searchPanel.add(toPriceTF);
+        searchPanel.add(searchBtn);
         mainPanel.add(searchPanel, BorderLayout.NORTH);
 
         JPanel bookingPanel = new JPanel(new GridLayout(0, 5));
@@ -219,5 +231,4 @@ public class GUICustomer {
         GUICustomer guiCustomer = new GUICustomer(c);
 
     }
-
 }
