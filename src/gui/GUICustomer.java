@@ -7,13 +7,13 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class GUI {
+public class GUICustomer {
     private Controller controller;
     private JFrame mainFrame;
     private String email = "";
     private Boolean emailBoo = false;
 
-    public GUI(Controller controller) {
+    public GUICustomer(Controller controller) {
         this.controller = controller;
         setup();
     }
@@ -141,7 +141,7 @@ public class GUI {
         tripsTA.setFont(new Font("monospaced", Font.PLAIN, 12));
         tripsTA.setEditable(false);
         mainPanel.add(tripsTA, BorderLayout.CENTER);
-        JPanel searchPanel = new JPanel(new GridLayout(0, 5));
+        JPanel searchPanel = new JPanel(new GridLayout(1, 5));
         JLabel fromLabel = new JLabel("From:");
         JTextField fromTF = new JTextField();
         JLabel toLabel = new JLabel("To:");
@@ -152,12 +152,28 @@ public class GUI {
                 tripsTA.append(controller.search(fromTF.getText(), toTF.getText()));
 
         });
+        JLabel departureLabel = new JLabel("Departure");
+        JTextField departureTF = new JTextField();
+        JLabel arrivalLabel = new JLabel("Arrival");
+        JTextField arrivalTF = new JTextField();
+        JLabel fromPriceLabel = new JLabel("Price lowest");
+        JTextField fromPriceTF = new JTextField();
+        JLabel toPriceLabel = new JLabel("Price highest");
+        JTextField toPriceTF = new JTextField();
 
         searchPanel.add(fromLabel);
         searchPanel.add(fromTF);
         searchPanel.add(toLabel);
         searchPanel.add(toTF);
         searchPanel.add(searchBtn);
+        searchPanel.add(departureLabel);
+        searchPanel.add(departureTF);
+        searchPanel.add(arrivalLabel);
+        searchPanel.add(arrivalTF);
+        searchPanel.add(fromPriceLabel);
+        searchPanel.add(fromPriceTF);
+        searchPanel.add(toPriceLabel);
+        searchPanel.add(toPriceTF);
         mainPanel.add(searchPanel, BorderLayout.NORTH);
 
         JPanel bookingPanel = new JPanel(new GridLayout(0, 5));
@@ -200,7 +216,7 @@ public class GUI {
 
     public static void main(String[] args) {
         Controller c = new Controller();
-        GUI gui = new GUI(c);
+        GUICustomer guiCustomer = new GUICustomer(c);
 
     }
 
