@@ -29,7 +29,7 @@ public class AdminController {
 
         for (int i = 0; i < attributeQueries.length; i++) {
             try {
-                PreparedStatement statement = con.prepareStatement("UPDATE  + table SET" + attributeQueries[i] + "=" + newValueQueries[i] + "WHERE" + pk + "=" + primaryKey);
+                PreparedStatement statement = con.prepareStatement("UPDATE  + table SET " + attributeQueries[i] + " = " + newValueQueries[i] + " WHERE " + pk + " = " + primaryKey + ";");
                 statement.execute();
 
             } catch (SQLException e) {
