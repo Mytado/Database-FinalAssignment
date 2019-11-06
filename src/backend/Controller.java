@@ -43,7 +43,21 @@ public class Controller {
             query += " AND ";
         }
         if(toPrice > 0) {
-            
+            query += "travel_price <=" + toPrice;
+        }
+        if((from.length() > 0 || to.length() > 0) || (fromPrice > 0 || toPrice > 0) && (fromDate.length() > 0 || toDate.length() > 0)){
+            query += " AND ";
+        }
+        if(fromDate.length() > 0){
+            String[] dateTime = fromDate.split(",");
+            query += "travel_departure >= " + "'" + dateTime[0] + " " + dateTime[1] + "'" ;
+        }
+        if(fromDate.length() > 0 && toDate.length() > 0){
+            query +=" AND ";
+        }
+        if(toDate.length() > 0){
+            String[] dateTime = toDate.split(",");
+            query += "travel_departure <= " + "'" + dateTime[0] + " " + dateTime[1] + "'" ;
         }
 
         query += " ORDER BY travel_id";
