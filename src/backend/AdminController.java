@@ -52,18 +52,17 @@ public class AdminController {
 
         if (table.toLowerCase() == "customer") {
             try {
-                PreparedStatement statement = con.prepareStatement("SELECT* FROM ?");
-                statement.setString(1, table);
+                PreparedStatement statement = con.prepareStatement("SELECT * FROM " + table);
                 ResultSet res = statement.executeQuery();
                 while (res.next()) {
                     result.append("Customer ID: " + res.getInt(1) + " First name: "
                             + res.getString(2) + " Last name: "
                             + res.getString(3) + " Address: "
-                            + res.getTimestamp(4) + " Email: "
-                            + res.getTimestamp(5) + " Phone number: "
-                            + res.getInt(6) + " Zip code: "
+                            + res.getString(4) + " Email: "
+                            + res.getString(5) + " Phone number: "
+                            + res.getString(6) + " Zip code: "
                             + res.getInt(7) + " City:"
-                            + res.getInt(8) + "\n");
+                            + res.getString(8) + "\n");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -71,7 +70,7 @@ public class AdminController {
             }
         } else if (table.toLowerCase() == "driver") {
             try {
-                PreparedStatement statement = con.prepareStatement("SELECT* FROM ?");
+                PreparedStatement statement = con.prepareStatement("SELECT * FROM ?");
                 statement.setString(1, table);
                 ResultSet res = statement.executeQuery();
                 while (res.next()) {
@@ -90,7 +89,7 @@ public class AdminController {
             }
         } else if (table.toLowerCase() == "travel") {
             try {
-                PreparedStatement statement = con.prepareStatement("SELECT* FROM ?");
+                PreparedStatement statement = con.prepareStatement("SELECT * FROM ?");
                 statement.setString(1, table);
                 ResultSet res = statement.executeQuery();
                 while (res.next()) {
@@ -108,7 +107,7 @@ public class AdminController {
             }
         } else if (table.toLowerCase() == "customertravel") {
             try {
-                PreparedStatement statement = con.prepareStatement("SELECT* FROM ?");
+                PreparedStatement statement = con.prepareStatement("SELECT * FROM ?");
                 statement.setString(1, table);
                 ResultSet res = statement.executeQuery();
                 while (res.next()) {
