@@ -168,6 +168,10 @@ public class GUICustomer {
                     else if (fromPriceTF.getText().isEmpty() && toPriceTF.getText().isEmpty()){
                         tripsTA.append(controller.search(fromTF.getText(), toTF.getText(), -1, -1, departureTF.getText(), arrivalTF.getText()));
                     }
+                    else if (!(fromPriceTF.getText().isEmpty()) && !(toPriceTF.getText().isEmpty())) {
+                        tripsTA.append(controller.search(fromTF.getText(), toTF.getText(), Integer.parseInt(fromPriceTF.getText()), Integer.parseInt(toPriceTF.getText()), departureTF.getText(), arrivalTF.getText()));
+
+                    }
                 }
                 catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Only digits are allowed in the price fields");
