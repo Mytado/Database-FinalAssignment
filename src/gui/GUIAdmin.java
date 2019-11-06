@@ -32,8 +32,8 @@ public class GUIAdmin {
 
             }
         });
-        mainFrame.setSize(new Dimension(1400, 800));
         setStartUI();
+        mainFrame.setSize(new Dimension(1400, 800));
     }
 
     private void setStartUI() {
@@ -74,7 +74,7 @@ public class GUIAdmin {
         startPanel.add(buttonPanel, BorderLayout.NORTH);
 
 
-        JPanel updateDeletePanel = new JPanel(new GridLayout(3, 3));
+        JPanel updateDeletePanel = new JPanel(new GridLayout(5, 2));
         JLabel updateLabel = new JLabel("Enter customer-/booking-/travel-id or city name of the one you want to update");
         JTextField primaryKeyTF = new JTextField();
         JLabel attributeLabel = new JLabel("Enter which fields you want to update separated by ','");
