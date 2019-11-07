@@ -65,14 +65,20 @@ public class GUIAdmin {
             centerTA.setText("");
             centerTA.append(controller.showInfo(currentTable));
         });
+        JButton driverBtn = new JButton("Show drivers");
+        driverBtn.addActionListener(e -> {
+            currentTable = "driver";
+            centerTA.setText("");
+            centerTA.append(controller.showInfo(currentTable));
+        });
 
-        JPanel buttonPanel = new JPanel(new GridLayout(4, 0));
+        JPanel buttonPanel = new JPanel(new GridLayout(6, 0));
         buttonPanel.add(customerBtn);
         buttonPanel.add(bookingsBtn);
         buttonPanel.add(tripsBtn);
         buttonPanel.add(citiesBtn);
+        buttonPanel.add(driverBtn);
         startPanel.add(buttonPanel, BorderLayout.NORTH);
-
 
         JPanel updateDeletePanel = new JPanel(new GridLayout(6, 2));
         JLabel updateLabel = new JLabel("Enter customer-/booking-/travel-id or city name of the one you want to update");
