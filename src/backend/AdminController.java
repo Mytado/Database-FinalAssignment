@@ -216,12 +216,23 @@ public class AdminController {
                 PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + "LOWER("+ pk + ") = LOWER(?)");
                 statement.setString(1, primaryKey);
                 statement.execute();
-            } else {
-                int primKey = Integer.parseInt(primaryKey);
-                PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + pk + " = ?");
-                statement.setInt(1, primKey);
-                statement.execute();
+            } else if (pk == "booking_id") {
+
+
+
+            } else if (pk == "travel_id") {
+
+
+
+            } else if (pk == "driver_id") {
+
+
+
+            } else if (pk == "customer_id") {
+
+
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
             disconnect();
