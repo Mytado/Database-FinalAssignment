@@ -208,26 +208,31 @@ public class AdminController {
 
         try {
             if (pk == "city_name") {
-                PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + "LOWER(" + pk + ") = LOWER(?)");
-                statement.setString(1, primaryKey);
-                statement.execute();
                 PreparedStatement travelStatement = con.prepareStatement("SELECT travel_id FROM Travel WHERE travel_from = ?");
                 travelStatement.setString(1, primaryKey);
                 ResultSet res = travelStatement.executeQuery();
                 while (res.next()) {
                     int travelId = res.getInt(1);
-                    PreparedStatement travelDelete = con.prepareStatement("DELETE FROM Travel WHERE travel_id = ?");
-                    travelDelete.setInt(1, travelId);
-                    travelDelete.execute();
                     PreparedStatement customerTravelDelete = con.prepareStatement("DELETE FROM CustomerTravel WHERE travel_id = ?");
                     customerTravelDelete.setInt(1, travelId);
                     customerTravelDelete.execute();
+                    PreparedStatement travelDelete = con.prepareStatement("DELETE FROM Travel WHERE travel_id = ?");
+                    travelDelete.setInt(1, travelId);
+                    travelDelete.execute();
                 }
+
+                PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + "LOWER(" + pk + ") = LOWER(?)");
+                statement.setString(1, primaryKey);
+                statement.execute();
 
                 PreparedStatement travelToStatement = con.prepareStatement("SELECT travel_id FROM Travel WHERE travel_to = ?");
                 travelToStatement.setString(1, primaryKey);
                 ResultSet resTo = travelStatement.executeQuery();
                 while (resTo.next()) {
+                    int travelId = res.getInt(1);
+                    PreparedStatement customerTravelDelete = con.prepareStatement("DELETE FROM CustomerTravel WHERE travel_id = ?");
+                    customerTravelDelete.setInt(1, travelId);
+                    customerTravelDelete.execute();
                     PreparedStatement travelToDelete = con.prepareStatement("DELETE FROM Travel WHERE travel_id = ?");
                     travelToDelete.setInt(1, res.getInt(1));
                     travelToDelete.execute();
