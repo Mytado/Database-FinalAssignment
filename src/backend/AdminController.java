@@ -341,18 +341,28 @@ public class AdminController {
                 PreparedStatement beginStatement = con.prepareStatement("BEGIN");
                 beginStatement.execute();
 
-                PreparedStatement statement2 = con.prepareStatement("UPDATE travel SET travel_seatsavailable = travel_seatsavailable + (SELECT nbr_of_seats_booked FROM customertravel WHERE customer_id = ?) WHERE customertravel.travel_id = travel.travel_id AND customer." + pk + "= customertravel." + pk);
-                statement2.setInt(1, primKey);
-                statement2.execute();
-                PreparedStatement statement3 = con.prepareStatement("DELETE FROM customertravel WHERE" + pk + " = ?");
-                statement3.setInt(1, primKey);
-                statement3.execute();
+                PreparedStatement selectStatement = con.prepareStatement("SELECT nbr_of_seats_booked,travel_id FROM customertravel WHERE customer_id = ?");
+                selectStatement.setInt(1, primKey);
+                ResultSet selectRes = selectStatement.executeQuery();
+                while(selectRes.next()){
+                    PreparedStatement updateStatement = con.prepareStatement("UPDATE Travel SET travel_seatsAvailable = travel_seatsavailable + ? WHERE travel_id = ?" );
+                    updateStatement.setInt(1,selectRes.getInt(1));
+                    updateStatement.setInt(2,selectRes.getInt(2));
+
+                    PreparedStatement statement3 = con.prepareStatement("DELETE FROM customertravel WHERE " + pk + " = ?");
+                    statement3.setInt(1, primKey);
+                    statement3.execute();
+                }
+
                 PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + pk + " = ?");
                 statement.setInt(1, primKey);
                 statement.execute();
+
                 PreparedStatement commitStatement = con.prepareStatement("COMMIT");
                 commitStatement.execute();
             }
+
+
 
         } catch (SQLException e) {
             e.printStackTrace();
