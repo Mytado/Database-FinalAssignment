@@ -5,7 +5,7 @@ import java.sql.*;
 public class AdminController {
     Connection con;
 
-    public boolean update (String table, String primaryKey, String attributes, String newValues) {
+    public boolean update(String table, String primaryKey, String attributes, String newValues) {
         connect();
         String[] attributeQueries = attributes.split(",");
         String[] newValueQueries = newValues.split(",");
@@ -19,8 +19,7 @@ public class AdminController {
             pk = "travel_id";
         } else if (table.toLowerCase() == "customertravel") {
             pk = "booking_id";
-        }
-        else if(table.toLowerCase() == "city"){
+        } else if (table.toLowerCase() == "city") {
             pk = "city_name";
         }
 
@@ -28,24 +27,24 @@ public class AdminController {
             return false;
         }
 
-        if(pk.equals("city_name")) {
+        if (pk.equals("city_name")) {
             System.out.println("we do this one");
             for (int i = 0; i < attributeQueries.length; i++) {
                 try {
                     boolean isInt = false;
                     int intValue = 0;
-                    try{
-                        intValue =  Integer.parseInt(newValueQueries[i]);
+                    try {
+                        intValue = Integer.parseInt(newValueQueries[i]);
                         isInt = true;
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         isInt = false;
                     }
-                    if(isInt) {
+                    if (isInt) {
                         PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET " + attributeQueries[i] + " = ? WHERE " + pk + " = ?");
                         statement.setInt(1, intValue);
                         statement.setString(2, primaryKey);
                         statement.execute();
-                    } else{
+                    } else {
                         PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET " + attributeQueries[i] + " = ? WHERE " + pk + " = ?");
                         statement.setString(1, newValueQueries[i]);
                         statement.setString(2, primaryKey);
@@ -58,26 +57,24 @@ public class AdminController {
                     return false;
                 }
             }
-        }
-        else {
+        } else {
             for (int i = 0; i < attributeQueries.length; i++) {
                 try {
                     boolean isInt = false;
                     int intValue = 0;
-                    try{
-                        intValue =  Integer.parseInt(newValueQueries[i]);
+                    try {
+                        intValue = Integer.parseInt(newValueQueries[i]);
                         isInt = true;
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         isInt = false;
                     }
                     int primKey = Integer.parseInt(primaryKey);
-                    if(isInt) {
+                    if (isInt) {
                         PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET " + attributeQueries[i] + " = ? WHERE " + pk + " = ?");
                         statement.setInt(1, intValue);
                         statement.setInt(2, primKey);
                         statement.execute();
-                    }
-                    else {
+                    } else {
                         PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET " + attributeQueries[i] + " = " + "'" + newValueQueries[i] + "'" + " WHERE " + pk + " = ?");
                         statement.setInt(1, primKey);
                         statement.execute();
@@ -96,10 +93,10 @@ public class AdminController {
     }
 
 
-    public String showInfo (String table) {
+    public String showInfo(String table) {
         connect();
         StringBuffer result = new StringBuffer();
-        System.out.println( table);
+        System.out.println(table);
 
         if (table.toLowerCase() == "customer") {
             try {
@@ -201,7 +198,7 @@ public class AdminController {
             pk = "travel_id";
         } else if (table.toLowerCase() == "customertravel") {
             pk = "booking_id";
-        } else if(table.toLowerCase() == "city"){
+        } else if (table.toLowerCase() == "city") {
             pk = "city_name";
         }
 
@@ -210,20 +207,82 @@ public class AdminController {
         }
 
         try {
-            if(pk == "city_name") {
-
-
-                PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + "LOWER("+ pk + ") = LOWER(?)");
+            if (pk == "city_name") {
+                PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + "LOWER(" + pk + ") = LOWER(?)");
                 statement.setString(1, primaryKey);
                 statement.execute();
-            } else if (pk == "booking_id") {
+                PreparedStatement travelStatement = con.prepareStatement("SELECT travel_id FROM Travel WHERE travel_from = ?");
+                travelStatement.setString(1, primaryKey);
+                ResultSet res = travelStatement.executeQuery();
+                while (res.next()) {
+                    int travelId = res.getInt(1);
+                    PreparedStatement travelDelete = con.prepareStatement("DELETE FROM Travel WHERE travel_id = ?");
+                    travelDelete.setInt(1, travelId);
+                    travelDelete.execute();
+                    PreparedStatement customerTravelDelete = con.prepareStatement("DELETE FROM CustomerTravel WHERE travel_id = ?");
+                    customerTravelDelete.setInt(1, travelId);
+                    customerTravelDelete.execute();
+                }
 
+                PreparedStatement travelToStatement = con.prepareStatement("SELECT travel_id FROM Travel WHERE travel_to = ?");
+                travelToStatement.setString(1, primaryKey);
+                ResultSet resTo = travelStatement.executeQuery();
+                while (resTo.next()) {
+                    PreparedStatement travelToDelete = con.prepareStatement("DELETE FROM Travel WHERE travel_id = ?");
+                    travelToDelete.setInt(1, res.getInt(1));
+                    travelToDelete.execute();
+                }
+            } else if (pk == "booking_id") {
+                PreparedStatement beginStatement = con.prepareStatement("BEGIN");
+                beginStatement.execute();
+
+                int intPk = Integer.parseInt(primaryKey);
+
+                PreparedStatement selBookStatement = con.prepareStatement("SELECT travel_id FROM Customertravel WHERE booking_id = ?");
+                selBookStatement.setInt(1, intPk);
+                ResultSet resId = selBookStatement.executeQuery();
+
+                String idResult = "";
+                while (resId.next()) {
+                    idResult = resId.getString(1);
+                }
+
+                int resTravelID = Integer.parseInt(idResult);
+
+                PreparedStatement selSeatsStatement = con.prepareStatement("SELECT travel_seatsavailable FROM Travel WHERE travel_id = ?");
+                selSeatsStatement.setInt(1, resTravelID);
+                ResultSet seatsRes = selSeatsStatement.executeQuery();
+
+                String seatsResult = "";
+                while (seatsRes.next()) {
+                    seatsResult = seatsRes.getString(1);
+                }
+
+                PreparedStatement selCustSeatsStatement = con.prepareStatement("SELECT travel_seatsavailable FROM Travel WHERE travel_id = ?");
+                selCustSeatsStatement.setInt(1, resTravelID);
+                ResultSet custSeatsres = selCustSeatsStatement.executeQuery();
+
+                String bookedSeats = "";
+                while (custSeatsres.next()) {
+                    bookedSeats = seatsRes.getString(1);
+                }
+
+                int intSeatsResult = Integer.parseInt(seatsResult);
+                int intBookedSeats = Integer.parseInt(bookedSeats);
+                intSeatsResult += intBookedSeats;
+
+                PreparedStatement updateStatement = con.prepareStatement("UPDATE travel SET travel_seatsavailable = ? WHERE travel_id = ?");
+                updateStatement.setInt(1, intSeatsResult);
+                updateStatement.setInt(2, resTravelID);
+                updateStatement.execute();
 
                 int primKey = Integer.parseInt(primaryKey);
                 PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + pk + " = ?");
                 statement.setInt(1, primKey);
                 statement.execute();
 
+                PreparedStatement commitStatement = con.prepareStatement("COMMIT");
+                commitStatement.execute();
 
             } else if (pk == "travel_id") {
                 int primKey = Integer.parseInt(primaryKey);
@@ -233,7 +292,7 @@ public class AdminController {
                 statement.setInt(1, primKey);
                 statement.execute();
                 PreparedStatement statement2 = con.prepareStatement("DELETE FROM customertravel WHERE" + pk + " = ?");
-                statement.setInt(1, primKey);
+                statement2.setInt(1, primKey);
                 statement.execute();
                 PreparedStatement commitStatement = con.prepareStatement("COMMIT");
                 commitStatement.execute();
@@ -248,16 +307,24 @@ public class AdminController {
                 statement.setInt(1, primKey);
                 statement.execute();
                 PreparedStatement statement2 = con.prepareStatement("DELETE FROM travel WHERE" + pk + " = ?");
-                statement.setInt(1, primKey);
+                statement2.setInt(1, primKey);
                 PreparedStatement commitStatement = con.prepareStatement("COMMIT");
                 commitStatement.execute();
 
             } else if (pk == "customer_id") {
 
                 int primKey = Integer.parseInt(primaryKey);
+                PreparedStatement beginStatement = con.prepareStatement("BEGIN");
+                beginStatement.execute();
                 PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + pk + " = ?");
                 statement.setInt(1, primKey);
                 statement.execute();
+                PreparedStatement statement2 = con.prepareStatement("UPDATE travel SET travel_seatsavailable = travel_seatsavailable + (SELECT nbr_of_seats_booked FROM customertravel WHERE customer_id = ?) WHERE customertravel.travel_id = travel.travel_id AND customer." + pk + "= customertravel." + pk);
+                statement2.setInt(1, primKey);
+                PreparedStatement statement3 = con.prepareStatement("DELETE FROM customertravel WHERE" + pk + " = ?");
+                statement3.setInt(1, primKey);
+                PreparedStatement commitStatement = con.prepareStatement("COMMIT");
+                commitStatement.execute();
             }
 
         } catch (SQLException e) {
@@ -271,24 +338,24 @@ public class AdminController {
         return true;
     }
 
-    public boolean insert (String table, String attr) {
+    public boolean insert(String table, String attr) {
         String[] attributes = attr.split(",");
 
         if (table.toLowerCase() == "customer") {
-           return insertCustomer(attributes);
+            return insertCustomer(attributes);
         } else if (table.toLowerCase() == "driver") {
             return insertDriver(attributes);
         } else if (table.toLowerCase() == "travel") {
             return insertTravel(attributes);
         } else if (table.toLowerCase() == "customertravel") {
             return insertCustomerTravel(attributes);
-        } else if(table.toLowerCase() == "city"){
+        } else if (table.toLowerCase() == "city") {
             return insertCity(attributes);
         }
         return false;
     }
 
-    private boolean insertCustomer (String[] attributes) {
+    private boolean insertCustomer(String[] attributes) {
         connect();
         try {
             PreparedStatement statement = con.prepareStatement("INSERT INTO Customer (customer_fname, customer_lname, customer_address, customer_email, customer_phoneNumber, customer_zipcode, customer_city) " +
@@ -301,7 +368,7 @@ public class AdminController {
             statement.setInt(6, Integer.parseInt(attributes[5]));
             statement.setString(7, attributes[6]);
             statement.execute();
-        } catch(Exception e) {
+        } catch (Exception e) {
             disconnect();
             return false;
         }
@@ -323,7 +390,7 @@ public class AdminController {
             statement.setInt(6, Integer.parseInt(attributes[5]));
             statement.setString(7, attributes[6]);
             statement.execute();
-        } catch(Exception e) {
+        } catch (Exception e) {
             disconnect();
             return false;
         }
@@ -333,12 +400,12 @@ public class AdminController {
 
     private boolean insertTravel(String[] attributes) {
         connect();
-        for(int i = 0; i < attributes.length; i++){
+        for (int i = 0; i < attributes.length; i++) {
             System.out.println(attributes[i]);
         }
         try {
             PreparedStatement statement = con.prepareStatement("INSERT INTO Travel (travel_to, travel_from, travel_departure, travel_arrival, travel_price, travel_seatsavailable, travel_seatsamount, travel_driverid) " +
-                    "VALUES(?, ?, "+ "'"+ attributes[2]+"'" + ", "+ "'"+ attributes[3]+"'"+ ", ?, ?, ?, ?)");
+                    "VALUES(?, ?, " + "'" + attributes[2] + "'" + ", " + "'" + attributes[3] + "'" + ", ?, ?, ?, ?)");
             statement.setString(1, attributes[0]);
             statement.setString(2, attributes[1]);
             statement.setInt(3, Integer.parseInt(attributes[4]));
@@ -346,7 +413,7 @@ public class AdminController {
             statement.setInt(5, Integer.parseInt(attributes[6]));
             statement.setInt(6, Integer.parseInt(attributes[7]));
             statement.execute();
-        } catch(Exception e) {
+        } catch (Exception e) {
             disconnect();
             e.printStackTrace();
             return false;
@@ -364,7 +431,7 @@ public class AdminController {
             statement.setInt(2, Integer.parseInt(attributes[1]));
             statement.setInt(3, Integer.parseInt(attributes[2]));
             statement.execute();
-        } catch(Exception e) {
+        } catch (Exception e) {
             disconnect();
             return false;
         }
@@ -372,7 +439,7 @@ public class AdminController {
         return true;
     }
 
-    private boolean insertCity (String[] attributes) {
+    private boolean insertCity(String[] attributes) {
         connect();
         try {
             PreparedStatement statement = con.prepareStatement("INSERT INTO City (city_name, city_countryname, city_streetaddress) " +
@@ -381,15 +448,13 @@ public class AdminController {
             statement.setString(2, attributes[1]);
             statement.setString(3, attributes[2]);
             statement.execute();
-        } catch(Exception e) {
+        } catch (Exception e) {
             disconnect();
             return false;
         }
         disconnect();
         return true;
     }
-
-
 
 
     public void connect() {
@@ -400,7 +465,8 @@ public class AdminController {
         } catch (Exception e) {
             try {
                 con.close();
-            } catch (SQLException ex) { }
+            } catch (SQLException ex) {
+            }
         }
     }
 
