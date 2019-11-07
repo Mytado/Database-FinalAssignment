@@ -153,7 +153,7 @@ public class Controller {
             PreparedStatement updateStatement = con.prepareStatement("UPDATE Travel SET travel_seatsAvailable = travel_seatsAvailable - " + seats + " WHERE travel_id = " + travelId);
             updateStatement.execute();
 
-            PreparedStatement selectStatement = con.prepareStatement("SELECT customer_id FROM customer WHERE customer_email = ?");
+            PreparedStatement selectStatement = con.prepareStatement("SELECT customer_id FROM customer WHERE LOWER(customer_email) = LOWER(?)");
             selectStatement.setString(1, email);
             ResultSet customerResult = selectStatement.executeQuery();
             int customerId = 0;
@@ -173,6 +173,7 @@ public class Controller {
             return true;
         }
         }catch (Exception e){
+            e.printStackTrace();
             disconnect();
         }
         disconnect();
