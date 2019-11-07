@@ -170,6 +170,8 @@ public class AdminController {
             pk = "travel_id";
         } else if (table.toLowerCase() == "customertravel") {
             pk = "booking_id";
+        } else if(table.toLowerCase() == "city"){
+            pk = "city_name";
         }
 
         if (pk == "") {
@@ -177,16 +179,24 @@ public class AdminController {
         }
 
         try {
-            PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE LOWER(?) = LOWER(?)");
-            statement.setString(1, pk);
-            statement.setString(2, primaryKey);
-            statement.execute();
+            if(pk == "city_name") {
 
+
+                PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + pk + " = LOWER(?)");
+                statement.setString(1, primaryKey);
+                statement.execute();
+            } else {
+                int primKey = Integer.parseInt(primaryKey);
+                PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + pk + " = ?");
+                statement.setInt(1, primKey);
+                statement.execute();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             disconnect();
             return false;
         }
+
 
         disconnect();
         return true;
