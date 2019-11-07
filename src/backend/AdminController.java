@@ -317,12 +317,11 @@ public class AdminController {
     private boolean insertCustomerTravel(String[] attributes) {
         connect();
         try {
-            PreparedStatement statement = con.prepareStatement("INSERT INTO Customertravel (booking_id, customer_id, travel_id, nbr_of_seats_booked) " +
-                    "VALUES(?, ?, ?, ?)");
+            PreparedStatement statement = con.prepareStatement("INSERT INTO Customertravel (customer_id, travel_id, nbr_of_seats_booked) " +
+                    "VALUES(?, ?, ?)");
             statement.setInt(1, Integer.parseInt(attributes[0]));
             statement.setInt(2, Integer.parseInt(attributes[1]));
             statement.setInt(3, Integer.parseInt(attributes[2]));
-            statement.setInt(4, Integer.parseInt(attributes[3]));
             statement.execute();
         } catch(Exception e) {
             disconnect();
