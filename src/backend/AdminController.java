@@ -213,7 +213,7 @@ public class AdminController {
             if(pk == "city_name") {
 
 
-                PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + pk + " = LOWER(?)");
+                PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + "LOWER("+ pk + ") = LOWER(?)");
                 statement.setString(1, primaryKey);
                 statement.execute();
             } else {
