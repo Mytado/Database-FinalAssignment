@@ -139,6 +139,20 @@ public class AdminController {
                 e.printStackTrace();
                 disconnect();
             }
+        } else if (table.toLowerCase() == "city") {
+            try {
+                PreparedStatement statement = con.prepareStatement("SELECT * FROM " + table);
+                ResultSet res = statement.executeQuery();
+                while (res.next()) {
+                    result.append("city_name: " + res.getString(1) + " city_countryname: "
+                            + res.getString(2) + " city_streetaddress: "
+                            + res.getString(3) + "\n");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                disconnect();
+            }
+
         }
         disconnect();
         return result.toString();
