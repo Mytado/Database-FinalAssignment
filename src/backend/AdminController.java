@@ -233,6 +233,125 @@ public class AdminController {
         return true;
     }
 
+    public boolean insert (String table, String attr) {
+        String[] attributes = attr.split(",");
+
+        if (table.toLowerCase() == "customer") {
+           return insertCustomer(attributes);
+        } else if (table.toLowerCase() == "driver") {
+            return insertDriver(attributes);
+        } else if (table.toLowerCase() == "travel") {
+            return insertTravel(attributes);
+        } else if (table.toLowerCase() == "customertravel") {
+            return insertCustomerTravel(attributes);
+        } else if(table.toLowerCase() == "city"){
+            return insertCity(attributes);
+        }
+        return false;
+    }
+
+    private boolean insertCustomer (String[] attributes) {
+        connect();
+        try {
+            PreparedStatement statement = con.prepareStatement("INSERT INTO Customer (customer_fname, customer_lname, customer_address, customer_zipcode, customer_city, customer_email, customer_phoneNumber) " +
+                    "VALUES(?, ?, ?, ?, ?, ?, ?)");
+            statement.setString(1, attributes[0]);
+            statement.setString(2, attributes[1]);
+            statement.setString(3, attributes[2]);
+            statement.setInt(4, Integer.parseInt(attributes[3]));
+            statement.setString(5, attributes[4]);
+            statement.setString(6, attributes[5]);
+            statement.setString(7, attributes[6]);
+            statement.execute();
+        } catch(Exception e) {
+            disconnect();
+            return false;
+        }
+        disconnect();
+        return true;
+    }
+
+    private boolean insertDriver(String[] attributes) {
+        connect();
+        try {
+            PreparedStatement statement = con.prepareStatement("INSERT INTO Driver (driver_id, driver_personnumber, driver_fname, driver_lname, driver_address, driver_telephonenumber, driver_zipcode, driver_city) " +
+                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
+            statement.setInt(1, Integer.parseInt(attributes[0]));
+            statement.setString(2, attributes[1]);
+            statement.setString(3, attributes[2]);
+            statement.setString(4, attributes[3]);
+            statement.setString(5, attributes[4]);
+            statement.setString(6, attributes[5]);
+            statement.setInt(7, Integer.parseInt(attributes[6]));
+            statement.setString(8, attributes[7]);
+            statement.execute();
+        } catch(Exception e) {
+            disconnect();
+            return false;
+        }
+        disconnect();
+        return true;
+    }
+
+    private boolean insertTravel(String[] attributes) {
+        connect();
+        try {
+            PreparedStatement statement = con.prepareStatement("INSERT INTO Travel (travel_id, travel_to, travel_from, travel_departure, travel_arrival, travel_price, travel_seatsavailable, travel_seatsamount, travel_driverid) " +
+                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            statement.setInt(1, Integer.parseInt(attributes[0]));
+            statement.setString(2, attributes[1]);
+            statement.setString(3, attributes[2]);
+            statement.setString(4, attributes[3]);
+            statement.setString(5, attributes[4]);
+            statement.setInt(6, Integer.parseInt(attributes[5]));
+            statement.setInt(7, Integer.parseInt(attributes[6]));
+            statement.setInt(8, Integer.parseInt(attributes[7]));
+            statement.setInt(9, Integer.parseInt(attributes[8]));
+            statement.execute();
+        } catch(Exception e) {
+            disconnect();
+            return false;
+        }
+        disconnect();
+        return true;
+    }
+
+    private boolean insertCustomerTravel(String[] attributes) {
+        connect();
+        try {
+            PreparedStatement statement = con.prepareStatement("INSERT INTO Customertravel (booking_id, customer_id, travel_id, nbr_of_seats_booked) " +
+                    "VALUES(?, ?, ?, ?)");
+            statement.setInt(1, Integer.parseInt(attributes[0]));
+            statement.setInt(2, Integer.parseInt(attributes[1]));
+            statement.setInt(3, Integer.parseInt(attributes[2]));
+            statement.setInt(4, Integer.parseInt(attributes[3]));
+            statement.execute();
+        } catch(Exception e) {
+            disconnect();
+            return false;
+        }
+        disconnect();
+        return true;
+    }
+
+    private boolean insertCity (String[] attributes) {
+        connect();
+        try {
+            PreparedStatement statement = con.prepareStatement("INSERT INTO City (city_name, city_countryname, city_streetaddress) " +
+                    "VALUES(?, ?, ?)");
+            statement.setString(1, attributes[0]);
+            statement.setString(2, attributes[1]);
+            statement.setString(3, attributes[2]);
+            statement.execute();
+        } catch(Exception e) {
+            disconnect();
+            return false;
+        }
+        disconnect();
+        return true;
+    }
+
+
 
 
     public void connect() {
