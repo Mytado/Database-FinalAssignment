@@ -29,14 +29,28 @@ public class AdminController {
         }
 
         if(pk.equals("city_name")) {
-
             System.out.println("we do this one");
             for (int i = 0; i < attributeQueries.length; i++) {
                 try {
-                    PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET "+ attributeQueries[i] + " = ? WHERE "+ pk + " = ?");
-                    statement.setString(1, newValueQueries[i]);
-                    statement.setString(2, primaryKey);
-                    statement.execute();
+                    boolean isInt = false;
+                    int intValue = 0;
+                    try{
+                        intValue =  Integer.parseInt(newValueQueries[i]);
+                        isInt = true;
+                    }catch(Exception e){
+                        isInt = false;
+                    }
+                    if(isInt) {
+                        PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET " + attributeQueries[i] + " = ? WHERE " + pk + " = ?");
+                        statement.setInt(1, intValue);
+                        statement.setString(2, primaryKey);
+                        statement.execute();
+                    } else{
+                        PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET " + attributeQueries[i] + " = ? WHERE " + pk + " = ?");
+                        statement.setString(1, newValueQueries[i]);
+                        statement.setString(2, primaryKey);
+                        statement.execute();
+                    }
 
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -48,11 +62,28 @@ public class AdminController {
         else {
             for (int i = 0; i < attributeQueries.length; i++) {
                 try {
+                    boolean isInt = false;
+                    int intValue = 0;
+                    try{
+                        intValue =  Integer.parseInt(newValueQueries[i]);
+                        isInt = true;
+                    }catch(Exception e){
+                        isInt = false;
+                    }
                     int primKey = Integer.parseInt(primaryKey);
-                    PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET "+ attributeQueries[i] + " = ? WHERE "+ pk + " = ?");
-                    statement.setString(1, newValueQueries[i]);
-                    statement.setInt(2, primKey);
-                    statement.execute();
+                    if(isInt) {
+                        PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET " + attributeQueries[i] + " = ? WHERE " + pk + " = ?");
+                        statement.setInt(1, intValue);
+                        statement.setInt(2, primKey);
+                        statement.execute();
+                    }
+                    else {
+                        PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET " + attributeQueries[i] + " = ? WHERE " + pk + " = ?");
+                        statement.setString(1, newValueQueries[i]);
+                        statement.setInt(2, primKey);
+                        statement.execute();
+
+                    }
 
                 } catch (SQLException e) {
                     e.printStackTrace();
