@@ -162,9 +162,9 @@ public class AdminController {
                 ResultSet res = statement.executeQuery();
                 while (res.next()) {
                     result.append("booking_id: " + res.getInt(1) + " customer_id: "
-                            + res.getInt(1) + " travel_id: "
-                            + res.getInt(2) + " nbr_of_seats_booked: "
-                            + res.getInt(3) + "\n");
+                            + res.getInt(2) + " travel_id: "
+                            + res.getInt(3) + " nbr_of_seats_booked: "
+                            + res.getInt(4) + "\n");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
