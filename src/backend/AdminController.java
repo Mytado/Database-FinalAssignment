@@ -242,9 +242,15 @@ public class AdminController {
             } else if (pk == "driver_id") {
 
                 int primKey = Integer.parseInt(primaryKey);
+                PreparedStatement beginStatement = con.prepareStatement("BEGIN");
+                beginStatement.execute();
                 PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + pk + " = ?");
                 statement.setInt(1, primKey);
                 statement.execute();
+                PreparedStatement statement2 = con.prepareStatement("DELETE FROM travel WHERE" + pk + " = ?");
+                statement.setInt(1, primKey);
+                PreparedStatement commitStatement = con.prepareStatement("COMMIT");
+                commitStatement.execute();
 
             } else if (pk == "customer_id") {
 
