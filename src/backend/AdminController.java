@@ -208,6 +208,8 @@ public class AdminController {
 
         try {
             if (pk == "city_name") {
+                PreparedStatement beginStatement = con.prepareStatement("BEGIN");
+                beginStatement.execute();
                 PreparedStatement travelStatement = con.prepareStatement("SELECT travel_id FROM Travel WHERE travel_from = ?");
                 travelStatement.setString(1, primaryKey);
                 ResultSet res = travelStatement.executeQuery();
@@ -221,22 +223,25 @@ public class AdminController {
                     travelDelete.execute();
                 }
 
-                PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + "LOWER(" + pk + ") = LOWER(?)");
-                statement.setString(1, primaryKey);
-                statement.execute();
 
                 PreparedStatement travelToStatement = con.prepareStatement("SELECT travel_id FROM Travel WHERE travel_to = ?");
                 travelToStatement.setString(1, primaryKey);
-                ResultSet resTo = travelStatement.executeQuery();
+                ResultSet resTo = travelToStatement.executeQuery();
                 while (resTo.next()) {
-                    int travelId = res.getInt(1);
+                    int travelId = resTo.getInt(1);
                     PreparedStatement customerTravelDelete = con.prepareStatement("DELETE FROM CustomerTravel WHERE travel_id = ?");
                     customerTravelDelete.setInt(1, travelId);
                     customerTravelDelete.execute();
                     PreparedStatement travelToDelete = con.prepareStatement("DELETE FROM Travel WHERE travel_id = ?");
-                    travelToDelete.setInt(1, res.getInt(1));
+                    travelToDelete.setInt(1, travelId);
                     travelToDelete.execute();
+
                 }
+                PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + "LOWER(" + pk + ") = LOWER(?)");
+                statement.setString(1, primaryKey);
+                statement.execute();
+                PreparedStatement commitStatement = con.prepareStatement("COMMIT");
+                commitStatement.execute();
             }  else if (pk == "booking_id") {
                 PreparedStatement beginStatement = con.prepareStatement("BEGIN");
                 beginStatement.execute();
