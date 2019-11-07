@@ -242,7 +242,7 @@ public class AdminController {
                 statement.execute();
                 PreparedStatement commitStatement = con.prepareStatement("COMMIT");
                 commitStatement.execute();
-            }  else if (pk == "booking_id") {
+            } else if (pk == "booking_id") {
                 PreparedStatement beginStatement = con.prepareStatement("BEGIN");
                 beginStatement.execute();
 
@@ -269,11 +269,49 @@ public class AdminController {
                 PreparedStatement commitStatement = con.prepareStatement("COMMIT");
                 commitStatement.execute();
 
+            } else if (pk == "booking_id") {
+                PreparedStatement beginStatement = con.prepareStatement("BEGIN");
+                beginStatement.execute();
+
+                int primKey = Integer.parseInt(primaryKey);
+
+                PreparedStatement statement1 = con.prepareStatement("SELECT customer_id FROM customertravel WHERE booking_id = ?");
+                statement1.setInt(1, primKey);
+                ResultSet res = statement1.executeQuery();
+
+                int customerId = 0;
+
+                while (res.next()) {
+                    customerId = res.getInt(1);
+                }
+
+                PreparedStatement travelIdStatement = con.prepareStatement("SELECT travel_id FROM customertravel WHERE booking_id = ?");
+                travelIdStatement.setInt(1, primKey);
+                ResultSet travelIDres = travelIdStatement.executeQuery();
+
+                int travelId = 0;
+
+                while (travelIDres.next()) {
+                    travelId = travelIDres.getInt(1);
+                }
+
+                PreparedStatement statement2 = con.prepareStatement("UPDATE travel SET travel_seatsavailable = travel_seatsavailable + (SELECT nbr_of_seats_booked FROM customertravel WHERE booking_id = ? ) WHERE travel.travel_id = ?");
+                statement2.setInt(1, primKey);
+                statement2.setInt(2, travelId);
+                statement2.execute();
+
+                PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + pk + " = ?");
+                statement.setInt(1, primKey);
+                statement.execute();
+
+                PreparedStatement commitStatement = con.prepareStatement("COMMIT");
+                commitStatement.execute();
+
             } else if (pk == "travel_id") {
                 int primKey = Integer.parseInt(primaryKey);
                 PreparedStatement beginStatement = con.prepareStatement("BEGIN");
                 beginStatement.execute();
-                PreparedStatement statement2 = con.prepareStatement("DELETE FROM customertravel WHERE" + pk + " = ?");
+                PreparedStatement statement2 = con.prepareStatement("DELETE FROM customertravel WHERE " + pk + " = ?");
                 statement2.setInt(1, primKey);
                 statement2.execute();
                 PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + pk + " = ?");
@@ -288,12 +326,12 @@ public class AdminController {
                 int primKey = Integer.parseInt(primaryKey);
                 PreparedStatement beginStatement = con.prepareStatement("BEGIN");
                 beginStatement.execute();
+                PreparedStatement statement2 = con.prepareStatement("UPDATE travel SET travel_driverid = ?");
+                statement2.setInt(1, 0);
+                statement2.execute();
                 PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + pk + " = ?");
                 statement.setInt(1, primKey);
                 statement.execute();
-                PreparedStatement statement2 = con.prepareStatement("DELETE FROM travel WHERE" + pk + " = ?");
-                statement2.setInt(1, primKey);
-                statement2.execute();
                 PreparedStatement commitStatement = con.prepareStatement("COMMIT");
                 commitStatement.execute();
 
@@ -302,6 +340,7 @@ public class AdminController {
                 int primKey = Integer.parseInt(primaryKey);
                 PreparedStatement beginStatement = con.prepareStatement("BEGIN");
                 beginStatement.execute();
+
                 PreparedStatement statement2 = con.prepareStatement("UPDATE travel SET travel_seatsavailable = travel_seatsavailable + (SELECT nbr_of_seats_booked FROM customertravel WHERE customer_id = ?) WHERE customertravel.travel_id = travel.travel_id AND customer." + pk + "= customertravel." + pk);
                 statement2.setInt(1, primKey);
                 statement2.execute();
