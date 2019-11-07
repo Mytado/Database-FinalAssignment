@@ -27,7 +27,7 @@ public class AdminController {
 
         for (int i = 0; i < attributeQueries.length; i++) {
             try {
-                PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET ? = ? WHERE LOWER(?) = LOWER(?);");
+                PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET ? = ? WHERE LOWER(?) = LOWER(?)");
                 statement.setString(1, attributeQueries[i]);
                 statement.setString(2, newValueQueries[i]);
                 statement.setString(3, pk);
@@ -48,6 +48,7 @@ public class AdminController {
     public String showInfo (String table) {
         connect();
         StringBuffer result = new StringBuffer();
+        System.out.println( table);
 
         if (table.toLowerCase() == "customer") {
             try {
@@ -69,18 +70,17 @@ public class AdminController {
             }
         } else if (table.toLowerCase() == "driver") {
             try {
-                PreparedStatement statement = con.prepareStatement("SELECT * FROM ?");
-                statement.setString(1, table);
+                PreparedStatement statement = con.prepareStatement("SELECT * FROM " + table);
                 ResultSet res = statement.executeQuery();
                 while (res.next()) {
                     result.append("Driver ID: " + res.getInt(1) + " Person number: "
                             + res.getString(2) + " First name: "
                             + res.getString(3) + " Last name: "
-                            + res.getTimestamp(4) + " Address: "
-                            + res.getTimestamp(5) + " Telephone number: "
-                            + res.getInt(6) + " Zip code: "
+                            + res.getString(4) + " Address: "
+                            + res.getString(5) + " Telephone number: "
+                            + res.getString(6) + " Zip code: "
                             + res.getInt(7) + " City:"
-                            + res.getInt(8) + "\n");
+                            + res.getString(8) + "\n");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -88,8 +88,7 @@ public class AdminController {
             }
         } else if (table.toLowerCase() == "travel") {
             try {
-                PreparedStatement statement = con.prepareStatement("SELECT * FROM ?");
-                statement.setString(1, table);
+                PreparedStatement statement = con.prepareStatement("SELECT * FROM " + table);
                 ResultSet res = statement.executeQuery();
                 while (res.next()) {
                     result.append("Travel ID: " + res.getInt(1) + " From: "
@@ -97,7 +96,8 @@ public class AdminController {
                             + res.getString(3) + " Departure: "
                             + res.getTimestamp(4) + " Arrival: "
                             + res.getTimestamp(5) + " Price: "
-                            + res.getInt(6) + " seats Available: "
+                            + res.getInt(6) + " Seats Available: "
+                            + res.getInt(6) + " Driver ID: "
                             + res.getInt(7) + "\n");
                 }
             } catch (SQLException e) {
@@ -106,13 +106,12 @@ public class AdminController {
             }
         } else if (table.toLowerCase() == "customertravel") {
             try {
-                PreparedStatement statement = con.prepareStatement("SELECT * FROM ?");
-                statement.setString(1, table);
+                PreparedStatement statement = con.prepareStatement("SELECT * FROM " + table);
                 ResultSet res = statement.executeQuery();
                 while (res.next()) {
                     result.append("Booking ID: " + res.getInt(1) + " Customer ID: "
-                            + res.getString(2) + " Travel ID: "
-                            + res.getString(3) + " Number of seats booked: "
+                            + res.getInt(2) + " Travel ID: "
+                            + res.getInt(3) + " Number of seats booked: "
                             + res.getInt(7) + "\n");
                 }
             } catch (SQLException e) {
@@ -143,10 +142,9 @@ public class AdminController {
         }
 
         try {
-            PreparedStatement statement = con.prepareStatement("DELETE FROM ? WHERE LOWER(?) = LOWER(?)");
-            statement.setString(1, table);
-            statement.setString(2, pk);
-            statement.setString(3, primaryKey);
+            PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE LOWER(?) = LOWER(?)");
+            statement.setString(1, pk);
+            statement.setString(2, primaryKey);
             statement.execute();
 
         } catch (SQLException e) {
