@@ -118,8 +118,8 @@ public class AdminController {
                             + res.getTimestamp(4) + " travel_arrival: "
                             + res.getTimestamp(5) + " travel_price: "
                             + res.getInt(6) + " travel_seatsavailable: "
-                            + res.getInt(6) + " travel_driverid: "
-                            + res.getInt(7) + "\n");
+                            + res.getInt(7) + " travel_driverid: "
+                            + res.getInt(8) + "\n");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -131,9 +131,9 @@ public class AdminController {
                 ResultSet res = statement.executeQuery();
                 while (res.next()) {
                     result.append("booking_id: " + res.getInt(1) + " customer_id: "
-                            + res.getInt(2) + " travel_id: "
-                            + res.getInt(3) + " nbr_of_seats_booked: "
-                            + res.getInt(7) + "\n");
+                            + res.getInt(1) + " travel_id: "
+                            + res.getInt(2) + " nbr_of_seats_booked: "
+                            + res.getInt(3) + "\n");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
