@@ -219,18 +219,32 @@ public class AdminController {
             } else if (pk == "booking_id") {
 
 
+                int primKey = Integer.parseInt(primaryKey);
+                PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + pk + " = ?");
+                statement.setInt(1, primKey);
+                statement.execute();
+
 
             } else if (pk == "travel_id") {
-
+                int primKey = Integer.parseInt(primaryKey);
+                PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + pk + " = ?");
+                statement.setInt(1, primKey);
+                statement.execute();
 
 
             } else if (pk == "driver_id") {
 
-
+                int primKey = Integer.parseInt(primaryKey);
+                PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + pk + " = ?");
+                statement.setInt(1, primKey);
+                statement.execute();
 
             } else if (pk == "customer_id") {
 
-
+                int primKey = Integer.parseInt(primaryKey);
+                PreparedStatement statement = con.prepareStatement("DELETE FROM " + table + " WHERE " + pk + " = ?");
+                statement.setInt(1, primKey);
+                statement.execute();
             }
 
         } catch (SQLException e) {
