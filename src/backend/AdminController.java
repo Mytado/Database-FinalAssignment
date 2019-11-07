@@ -149,8 +149,9 @@ public class AdminController {
                             + res.getTimestamp(4) + " travel_arrival: "
                             + res.getTimestamp(5) + " travel_price: "
                             + res.getInt(6) + " travel_seatsavailable: "
-                            + res.getInt(7) + " travel_driverid: "
-                            + res.getInt(8) + "\n");
+                            + res.getInt(7) + " travel_seatsamount: "
+                            + res.getInt(8) + " travel_driverid: "
+                            + res.getInt(9) + "\n");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
