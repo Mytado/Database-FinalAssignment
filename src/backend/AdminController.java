@@ -27,12 +27,11 @@ public class AdminController {
 
         for (int i = 0; i < attributeQueries.length; i++) {
             try {
-                PreparedStatement statement = con.prepareStatement("UPDATE ? SET ? = ? WHERE LOWER(?) = LOWER(?);");
-                statement.setString(1, table);
-                statement.setString(2, attributeQueries[i]);
-                statement.setString(3, newValueQueries[i]);
-                statement.setString(4, pk);
-                statement.setString(5, primaryKey);
+                PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET ? = ? WHERE LOWER(?) = LOWER(?);");
+                statement.setString(1, attributeQueries[i]);
+                statement.setString(2, newValueQueries[i]);
+                statement.setString(3, pk);
+                statement.setString(4, primaryKey);
                 statement.execute();
 
             } catch (SQLException e) {
