@@ -253,14 +253,14 @@ public class AdminController {
     private boolean insertCustomer (String[] attributes) {
         connect();
         try {
-            PreparedStatement statement = con.prepareStatement("INSERT INTO Customer (customer_fname, customer_lname, customer_address, customer_zipcode, customer_city, customer_email, customer_phoneNumber) " +
+            PreparedStatement statement = con.prepareStatement("INSERT INTO Customer (customer_fname, customer_lname, customer_address, customer_email, customer_phoneNumber, customer_zipcode, customer_city) " +
                     "VALUES(?, ?, ?, ?, ?, ?, ?)");
             statement.setString(1, attributes[0]);
             statement.setString(2, attributes[1]);
             statement.setString(3, attributes[2]);
-            statement.setInt(4, Integer.parseInt(attributes[3]));
+            statement.setString(4, attributes[3]);
             statement.setString(5, attributes[4]);
-            statement.setString(6, attributes[5]);
+            statement.setInt(6, Integer.parseInt(attributes[5]));
             statement.setString(7, attributes[6]);
             statement.execute();
         } catch(Exception e) {
