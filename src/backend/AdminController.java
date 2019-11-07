@@ -20,24 +20,45 @@ public class AdminController {
         } else if (table.toLowerCase() == "customertravel") {
             pk = "booking_id";
         }
+        else if(table.toLowerCase() == "city"){
+            pk = "city_name";
+        }
 
         if (pk == "") {
             return false;
         }
 
-        for (int i = 0; i < attributeQueries.length; i++) {
-            try {
-                PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET ? = ? WHERE LOWER(?) = LOWER(?)");
-                statement.setString(1, attributeQueries[i]);
-                statement.setString(2, newValueQueries[i]);
-                statement.setString(3, pk);
-                statement.setString(4, primaryKey);
-                statement.execute();
+        if(pk.equals("city_name")) {
 
-            } catch (SQLException e) {
-                e.printStackTrace();
-                disconnect();
-                return false;
+            System.out.println("we do this one");
+            for (int i = 0; i < attributeQueries.length; i++) {
+                try {
+                    PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET "+ attributeQueries[i] + " = ? WHERE "+ pk + " = ?");
+                    statement.setString(1, newValueQueries[i]);
+                    statement.setString(2, primaryKey);
+                    statement.execute();
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    disconnect();
+                    return false;
+                }
+            }
+        }
+        else {
+            for (int i = 0; i < attributeQueries.length; i++) {
+                try {
+                    int primKey = Integer.parseInt(primaryKey);
+                    PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET "+ attributeQueries[i] + " = ? WHERE "+ pk + " = ?");
+                    statement.setString(1, newValueQueries[i]);
+                    statement.setInt(2, primKey);
+                    statement.execute();
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    disconnect();
+                    return false;
+                }
             }
         }
         disconnect();
