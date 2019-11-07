@@ -27,7 +27,7 @@ public class AdminController {
 
         for (int i = 0; i < attributeQueries.length; i++) {
             try {
-                PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET ? = ? WHERE LOWER(?) = LOWER(?);");
+                PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET ? = ? WHERE LOWER(?) = LOWER(?)");
                 statement.setString(1, attributeQueries[i]);
                 statement.setString(2, newValueQueries[i]);
                 statement.setString(3, pk);
