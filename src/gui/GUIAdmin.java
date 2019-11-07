@@ -84,7 +84,7 @@ public class GUIAdmin {
         JPanel updateDeletePanel = new JPanel(new GridLayout(8, 2));
         JLabel updateLabel = new JLabel("Enter customer-/booking-/travel-id or city name of the one you want to update");
         JTextField primaryKeyTF = new JTextField();
-        JLabel attributeLabel = new JLabel("Enter which fields you want to update separated by ','");
+        JLabel attributeLabel = new JLabel("Enter which fields you want to update separated by ',' (the first column can not be updated)");
         JTextField attributeTF = new JTextField();
         JLabel newInfoLabel = new JLabel("Enter the new values separated by ','");
         JTextField newInfoTF = new JTextField();
