@@ -78,7 +78,7 @@ public class AdminController {
                         statement.execute();
                     }
                     else {
-                        PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET " + attributeQueries[i] + " = ? WHERE " + pk + " = ?");
+                        PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET " + attributeQueries[i] + " = " + "'" + newValueQueries[i] + "'" + " WHERE " + pk + " = ?");
                         statement.setString(1, newValueQueries[i]);
                         statement.setInt(2, primKey);
                         statement.execute();
@@ -274,6 +274,7 @@ public class AdminController {
 
     private boolean insertDriver(String[] attributes) {
         connect();
+
         try {
             PreparedStatement statement = con.prepareStatement("INSERT INTO Driver (driver_personnumber, driver_fname, driver_lname, driver_address, driver_telephonenumber, driver_zipcode, driver_city) " +
                     "VALUES(?, ?, ?, ?, ?, ?, ?)");
@@ -295,20 +296,22 @@ public class AdminController {
 
     private boolean insertTravel(String[] attributes) {
         connect();
+        for(int i = 0; i < attributes.length; i++){
+            System.out.println(attributes[i]);
+        }
         try {
             PreparedStatement statement = con.prepareStatement("INSERT INTO Travel (travel_to, travel_from, travel_departure, travel_arrival, travel_price, travel_seatsavailable, travel_seatsamount, travel_driverid) " +
-                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
+                    "VALUES(?, ?, "+ "'"+ attributes[2]+"'" + ", "+ "'"+ attributes[3]+"'"+ ", ?, ?, ?, ?)");
             statement.setString(1, attributes[0]);
             statement.setString(2, attributes[1]);
-            statement.setString(3, attributes[2]);
-            statement.setString(4, attributes[3]);
-            statement.setInt(5, Integer.parseInt(attributes[4]));
-            statement.setInt(6, Integer.parseInt(attributes[5]));
-            statement.setInt(7, Integer.parseInt(attributes[6]));
-            statement.setInt(8, Integer.parseInt(attributes[7]));
+            statement.setInt(3, Integer.parseInt(attributes[4]));
+            statement.setInt(4, Integer.parseInt(attributes[5]));
+            statement.setInt(5, Integer.parseInt(attributes[6]));
+            statement.setInt(6, Integer.parseInt(attributes[7]));
             statement.execute();
         } catch(Exception e) {
             disconnect();
+            e.printStackTrace();
             return false;
         }
         disconnect();
