@@ -79,8 +79,7 @@ public class AdminController {
                     }
                     else {
                         PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET " + attributeQueries[i] + " = " + "'" + newValueQueries[i] + "'" + " WHERE " + pk + " = ?");
-                        statement.setString(1, newValueQueries[i]);
-                        statement.setInt(2, primKey);
+                        statement.setInt(1, primKey);
                         statement.execute();
 
                     }
