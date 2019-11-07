@@ -2,6 +2,7 @@ package gui;
 
 import backend.AdminController;
 import backend.Controller;
+import jdk.nashorn.internal.scripts.JO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -80,7 +81,7 @@ public class GUIAdmin {
         buttonPanel.add(driverBtn);
         startPanel.add(buttonPanel, BorderLayout.NORTH);
 
-        JPanel updateDeletePanel = new JPanel(new GridLayout(6, 2));
+        JPanel updateDeletePanel = new JPanel(new GridLayout(8, 2));
         JLabel updateLabel = new JLabel("Enter customer-/booking-/travel-id or city name of the one you want to update");
         JTextField primaryKeyTF = new JTextField();
         JLabel attributeLabel = new JLabel("Enter which fields you want to update separated by ','");
@@ -104,6 +105,7 @@ public class GUIAdmin {
         JLabel deleteLabel = new JLabel("Enter customer-/booking-/travel-id or city name of the one you want to delete");
         JTextField deleteTF = new JTextField();
         JButton deleteButton = new JButton("Delete");
+        JLabel blankLabel2 = new JLabel();
         deleteButton.addActionListener(e -> {
             if (!(deleteTF.getText().isEmpty())) {
                 if (controller.delete(currentTable, deleteTF.getText() )) {
@@ -112,6 +114,22 @@ public class GUIAdmin {
                 else {
                     JOptionPane.showMessageDialog(null, "Invalid entry in delete field");
                 }
+            }
+        });
+        JLabel insertLabel = new JLabel("Enter all the values needed to insert into a row separated by ','");
+        JTextField insertTF = new JTextField();
+        JButton insertButton = new JButton("Insert");
+        insertButton.addActionListener(e -> {
+            if (!(insertTF.getText().isEmpty())) {
+                if (controller.insert(currentTable, insertTF.getText())) {
+                    JOptionPane.showMessageDialog(null, "The data has been inserted");
+                }
+                else {
+                    JOptionPane.showMessageDialog(null,"Invalid data in insert text field");
+                }
+            }
+            else {
+                JOptionPane.showMessageDialog(null,"Text field is empty\nPlease insert data");
             }
         });
 
@@ -126,6 +144,10 @@ public class GUIAdmin {
         updateDeletePanel.add(deleteLabel);
         updateDeletePanel.add(deleteTF);
         updateDeletePanel.add(deleteButton);
+        updateDeletePanel.add(blankLabel2);
+        updateDeletePanel.add(insertLabel);
+        updateDeletePanel.add(insertTF);
+        updateDeletePanel.add(insertButton);
 
         startPanel.add(updateDeletePanel, BorderLayout.SOUTH);
 
