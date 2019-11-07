@@ -274,16 +274,15 @@ public class AdminController {
     private boolean insertDriver(String[] attributes) {
         connect();
         try {
-            PreparedStatement statement = con.prepareStatement("INSERT INTO Driver (driver_id, driver_personnumber, driver_fname, driver_lname, driver_address, driver_telephonenumber, driver_zipcode, driver_city) " +
-                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
-            statement.setInt(1, Integer.parseInt(attributes[0]));
+            PreparedStatement statement = con.prepareStatement("INSERT INTO Driver (driver_personnumber, driver_fname, driver_lname, driver_address, driver_telephonenumber, driver_zipcode, driver_city) " +
+                    "VALUES(?, ?, ?, ?, ?, ?, ?)");
+            statement.setString(1, attributes[0]);
             statement.setString(2, attributes[1]);
             statement.setString(3, attributes[2]);
             statement.setString(4, attributes[3]);
             statement.setString(5, attributes[4]);
-            statement.setString(6, attributes[5]);
-            statement.setInt(7, Integer.parseInt(attributes[6]));
-            statement.setString(8, attributes[7]);
+            statement.setInt(6, Integer.parseInt(attributes[5]));
+            statement.setString(7, attributes[6]);
             statement.execute();
         } catch(Exception e) {
             disconnect();
@@ -296,17 +295,16 @@ public class AdminController {
     private boolean insertTravel(String[] attributes) {
         connect();
         try {
-            PreparedStatement statement = con.prepareStatement("INSERT INTO Travel (travel_id, travel_to, travel_from, travel_departure, travel_arrival, travel_price, travel_seatsavailable, travel_seatsamount, travel_driverid) " +
-                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            statement.setInt(1, Integer.parseInt(attributes[0]));
+            PreparedStatement statement = con.prepareStatement("INSERT INTO Travel (travel_to, travel_from, travel_departure, travel_arrival, travel_price, travel_seatsavailable, travel_seatsamount, travel_driverid) " +
+                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
+            statement.setString(1, attributes[0]);
             statement.setString(2, attributes[1]);
             statement.setString(3, attributes[2]);
             statement.setString(4, attributes[3]);
-            statement.setString(5, attributes[4]);
+            statement.setInt(5, Integer.parseInt(attributes[4]));
             statement.setInt(6, Integer.parseInt(attributes[5]));
             statement.setInt(7, Integer.parseInt(attributes[6]));
             statement.setInt(8, Integer.parseInt(attributes[7]));
-            statement.setInt(9, Integer.parseInt(attributes[8]));
             statement.execute();
         } catch(Exception e) {
             disconnect();
