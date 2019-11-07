@@ -55,13 +55,13 @@ public class AdminController {
                 PreparedStatement statement = con.prepareStatement("SELECT * FROM " + table);
                 ResultSet res = statement.executeQuery();
                 while (res.next()) {
-                    result.append("Customer ID: " + res.getInt(1) + " First name: "
-                            + res.getString(2) + " Last name: "
-                            + res.getString(3) + " Address: "
-                            + res.getString(4) + " Email: "
-                            + res.getString(5) + " Phone number: "
-                            + res.getString(6) + " Zip code: "
-                            + res.getInt(7) + " City:"
+                    result.append("customer_id: " + res.getInt(1) + " customer_fname: "
+                            + res.getString(2) + " customer_lname: "
+                            + res.getString(3) + " customer_address: "
+                            + res.getString(4) + " customer_email: "
+                            + res.getString(5) + " customer_phonenumber: "
+                            + res.getString(6) + " customer_zipcode: "
+                            + res.getInt(7) + " customer_city:"
                             + res.getString(8) + "\n");
                 }
             } catch (SQLException e) {
@@ -73,13 +73,13 @@ public class AdminController {
                 PreparedStatement statement = con.prepareStatement("SELECT * FROM " + table);
                 ResultSet res = statement.executeQuery();
                 while (res.next()) {
-                    result.append("Driver ID: " + res.getInt(1) + " Person number: "
-                            + res.getString(2) + " First name: "
-                            + res.getString(3) + " Last name: "
-                            + res.getString(4) + " Address: "
-                            + res.getString(5) + " Telephone number: "
-                            + res.getString(6) + " Zip code: "
-                            + res.getInt(7) + " City:"
+                    result.append("driver_id: " + res.getInt(1) + " driver_personnumber: "
+                            + res.getString(2) + " driver_fname: "
+                            + res.getString(3) + " driver_lname: "
+                            + res.getString(4) + " driver_address: "
+                            + res.getString(5) + " driver_telephonenumber: "
+                            + res.getString(6) + " driver_zipcode: "
+                            + res.getInt(7) + " driver_city:"
                             + res.getString(8) + "\n");
                 }
             } catch (SQLException e) {
@@ -91,13 +91,13 @@ public class AdminController {
                 PreparedStatement statement = con.prepareStatement("SELECT * FROM " + table);
                 ResultSet res = statement.executeQuery();
                 while (res.next()) {
-                    result.append("Travel ID: " + res.getInt(1) + " From: "
-                            + res.getString(2) + " To: "
-                            + res.getString(3) + " Departure: "
-                            + res.getTimestamp(4) + " Arrival: "
-                            + res.getTimestamp(5) + " Price: "
-                            + res.getInt(6) + " Seats Available: "
-                            + res.getInt(6) + " Driver ID: "
+                    result.append("travel_id: " + res.getInt(1) + " travel_from: "
+                            + res.getString(2) + " travel_to: "
+                            + res.getString(3) + " travel_departure: "
+                            + res.getTimestamp(4) + " travel_arrival: "
+                            + res.getTimestamp(5) + " travel_price: "
+                            + res.getInt(6) + " travel_seatsavailable: "
+                            + res.getInt(6) + " travel_driverid: "
                             + res.getInt(7) + "\n");
                 }
             } catch (SQLException e) {
@@ -109,9 +109,9 @@ public class AdminController {
                 PreparedStatement statement = con.prepareStatement("SELECT * FROM " + table);
                 ResultSet res = statement.executeQuery();
                 while (res.next()) {
-                    result.append("Booking ID: " + res.getInt(1) + " Customer ID: "
-                            + res.getInt(2) + " Travel ID: "
-                            + res.getInt(3) + " Number of seats booked: "
+                    result.append("booking_id: " + res.getInt(1) + " customer_id: "
+                            + res.getInt(2) + " travel_id: "
+                            + res.getInt(3) + " nbr_of_seats_booked: "
                             + res.getInt(7) + "\n");
                 }
             } catch (SQLException e) {
