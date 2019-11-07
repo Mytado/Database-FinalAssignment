@@ -39,7 +39,7 @@ public class GUIAdmin {
     private void setStartUI() {
         JPanel startPanel = new JPanel(new BorderLayout());
         JTextArea centerTA = new JTextArea();
-        //centerTA.setSize(new Dimension(700, 600));
+        centerTA.setEditable(false);
         startPanel.add(centerTA, BorderLayout.CENTER);
         JButton customerBtn = new JButton("Show customers");
         customerBtn.addActionListener(e -> {
@@ -85,7 +85,6 @@ public class GUIAdmin {
         JLabel blanklbl1 = new JLabel();
         updateButton.addActionListener(e -> {
             if (!(primaryKeyTF.getText().isEmpty()) && !(attributeTF.getText().isEmpty()) && !(newInfoTF.getText().isEmpty())) {
-
                 if (controller.update(currentTable, primaryKeyTF.getText(), attributeTF.getText(), newInfoTF.getText())) {
                     JOptionPane.showMessageDialog(null, "The data has been updated");
                 }
@@ -93,7 +92,7 @@ public class GUIAdmin {
                     JOptionPane.showMessageDialog(null,"Invalid entries in update fields");
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Incompltete update information\nPlease fill in all update text fields");
+                JOptionPane.showMessageDialog(null, "Incomplete update information\nPlease fill in all update text fields");
             }
         });
         JLabel deleteLabel = new JLabel("Enter customer-/booking-/travel-id or city name of the one you want to delete");
