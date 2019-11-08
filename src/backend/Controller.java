@@ -192,7 +192,7 @@ public class Controller {
             while (customerResult.next()) {
                 customerId = customerResult.getInt(1);
             }
-            PreparedStatement bookingStatement = con.prepareStatement("SELECT c.booking_id, t.travel_from, t.travel_to, t.travel_departure, t.travel_arrival  FROM customertravel c, travel t WHERE customer_id = ? AND t.travel_id = c.travel_id");
+            PreparedStatement bookingStatement = con.prepareStatement("SELECT c.booking_id, t.travel_from, t.travel_to, t.travel_departure, t.travel_arrival, c.nbr_of_seats_booked  FROM customertravel c, travel t WHERE customer_id = ? AND t.travel_id = c.travel_id");
             bookingStatement.setInt(1,customerId);
             ResultSet bookingRes = bookingStatement.executeQuery();
             while(bookingRes.next()){
@@ -200,7 +200,8 @@ public class Controller {
                         + " From: " + bookingRes.getString(2)
                         + " To: " + bookingRes.getString(3)
                         + " Departure: " + bookingRes.getString(4)
-                        + " Arrival: " + bookingRes.getString(5) + "\n";
+                        + " Arrival: " + bookingRes.getString(5)
+                        +" Seats Booked: " + bookingRes.getInt(6)+  "\n";
             }
         } catch(Exception e){
             e.printStackTrace();
