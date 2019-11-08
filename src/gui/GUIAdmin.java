@@ -47,7 +47,7 @@ public class GUIAdmin {
             currentTable = "customer";
             centerTA.setText("");
             centerTA.append(controller.showInfo(currentTable));
-        } );
+        });
         JButton bookingsBtn = new JButton("Show bookings");
         bookingsBtn.addActionListener(e -> {
             currentTable = "customertravel";
@@ -94,9 +94,8 @@ public class GUIAdmin {
             if (!(primaryKeyTF.getText().isEmpty()) && !(attributeTF.getText().isEmpty()) && !(newInfoTF.getText().isEmpty())) {
                 if (controller.update(currentTable, primaryKeyTF.getText(), attributeTF.getText(), newInfoTF.getText())) {
                     JOptionPane.showMessageDialog(null, "The data has been updated");
-                }
-                else {
-                    JOptionPane.showMessageDialog(null,"Invalid entries in update fields");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Invalid entries in update fields");
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Incomplete update information\nPlease fill in all update text fields");
@@ -108,10 +107,9 @@ public class GUIAdmin {
         JLabel blankLabel2 = new JLabel();
         deleteButton.addActionListener(e -> {
             if (!(deleteTF.getText().isEmpty())) {
-                if (controller.delete(currentTable, deleteTF.getText() )) {
+                if (controller.delete(currentTable, deleteTF.getText())) {
                     JOptionPane.showMessageDialog(null, "The data has been deleted");
-                }
-                else {
+                } else {
                     JOptionPane.showMessageDialog(null, "Invalid entry in delete field");
                 }
             }
@@ -123,13 +121,11 @@ public class GUIAdmin {
             if (!(insertTF.getText().isEmpty())) {
                 if (controller.insert(currentTable, insertTF.getText())) {
                     JOptionPane.showMessageDialog(null, "The data has been inserted");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Invalid data in insert text field");
                 }
-                else {
-                    JOptionPane.showMessageDialog(null,"Invalid data in insert text field");
-                }
-            }
-            else {
-                JOptionPane.showMessageDialog(null,"Text field is empty\nPlease insert data");
+            } else {
+                JOptionPane.showMessageDialog(null, "Text field is empty\nPlease insert data");
             }
         });
 
