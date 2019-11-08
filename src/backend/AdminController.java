@@ -57,7 +57,63 @@ public class AdminController {
                     return false;
                 }
             }
-        } else {
+        }else if(pk.equals("booking_id")) {
+            try {
+            PreparedStatement beginStatement = con.prepareStatement("BEGIN");
+            beginStatement.execute();
+            for (int i = 0; i < attributeQueries.length; i++) {
+
+                    boolean isInt = false;
+                    int intValue = 0;
+                    try {
+                        intValue = Integer.parseInt(newValueQueries[i]);
+                        isInt = true;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        isInt = false;
+                    }
+                    int primKey = Integer.parseInt(primaryKey);
+                    if (isInt) {
+                        if(attributeQueries[i].equals("nbr_of_seats_booked")){
+                            System.out.println("hello");
+                            PreparedStatement selectSeatStatement = con.prepareStatement("SELECT nbr_of_seats_booked, travel_id FROM customertravel WHERE booking_id = ?");
+                            selectSeatStatement.setInt(1,primKey);
+                            int seatsdiff = 0;
+                            int travelId = 0;
+                            ResultSet seatRes = selectSeatStatement.executeQuery();
+                            while (seatRes.next()){
+                                seatsdiff = seatRes.getInt(1);
+                                travelId = seatRes.getInt(2);
+                            }
+                            seatsdiff = (seatsdiff - Integer.parseInt(newValueQueries[i]));
+                            PreparedStatement updatetravelStatement = con.prepareStatement("UPDATE Travel SET travel_seatsavailable = travel_seatsavailable + ? WHERE travel_id = ?");
+                            updatetravelStatement.setInt(1,seatsdiff);
+                            updatetravelStatement.setInt(2, travelId);
+                            updatetravelStatement.execute();
+                        }
+                        PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET " + attributeQueries[i] + " = ? WHERE " + pk + " = ?");
+                        statement.setInt(1, intValue);
+                        statement.setInt(2, primKey);
+                        statement.execute();
+
+                    } else {
+                        PreparedStatement statement = con.prepareStatement("UPDATE " + table + " SET " + attributeQueries[i] + " = " + "'" + newValueQueries[i] + "'" + " WHERE " + pk + " = ?");
+                        statement.setInt(1, primKey);
+                        statement.execute();
+
+                    }
+
+                }
+                PreparedStatement commitStatement = con.prepareStatement("COMMIT");
+                commitStatement.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                disconnect();
+                return false;
+            }
+
+        }
+        else {
             for (int i = 0; i < attributeQueries.length; i++) {
                 try {
                     boolean isInt = false;
