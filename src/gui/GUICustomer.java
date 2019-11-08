@@ -12,6 +12,7 @@ public class GUICustomer {
     private JFrame mainFrame;
     private String email = "";
     private Boolean emailBoo = false;
+    private String customerBookings;
 
     public GUICustomer(Controller controller) {
         this.controller = controller;
@@ -188,7 +189,7 @@ public class GUICustomer {
         searchPanel.add(searchBtn);
         mainPanel.add(searchPanel, BorderLayout.NORTH);
 
-        JPanel bookingPanel = new JPanel(new GridLayout(0, 5));
+        JPanel bookingPanel = new JPanel(new GridLayout(0, 6));
         JLabel travelIDLabel = new JLabel("TravelID:");
         JTextField travelIDTF = new JTextField();
         JLabel seatsLabel = new JLabel("Amount of seats:");
@@ -210,12 +211,18 @@ public class GUICustomer {
                 JOptionPane.showMessageDialog(null, "Invalid entry\nPlease enter numbers when booking");
             }
         });
+        JButton showBookingsButton = new JButton("Show your bookings");
+        showBookingsButton.addActionListener(e -> {
+            customerBookings = controller.showBookings(email);
+            setShowBookingsPanel();
+        });
 
         bookingPanel.add(travelIDLabel);
         bookingPanel.add(travelIDTF);
         bookingPanel.add(seatsLabel);
         bookingPanel.add(seatsTF);
         bookingPanel.add(bookingBtn);
+        bookingPanel.add(showBookingsButton);
         mainPanel.add(bookingPanel, BorderLayout.SOUTH);
 
         mainFrame.getContentPane().removeAll();
@@ -223,6 +230,23 @@ public class GUICustomer {
         mainFrame.revalidate();
         mainFrame.repaint();
         mainFrame.setSize(new Dimension(1300, 800));
+    }
+
+    private void setShowBookingsPanel() {
+        JPanel showBookingsPanel = new JPanel(new BorderLayout());
+        JTextArea showBookingsTA = new JTextArea();
+        showBookingsTA.setEditable(false);
+        JButton returnButton = new JButton("Return");
+        returnButton.addActionListener(e->setMainUI());
+        showBookingsTA.append(customerBookings);
+        showBookingsPanel.add(returnButton,BorderLayout.NORTH);
+        showBookingsPanel.add(showBookingsTA,BorderLayout.CENTER);
+        mainFrame.getContentPane().removeAll();
+        mainFrame.add(showBookingsPanel);
+        mainFrame.revalidate();
+        mainFrame.repaint();
+        mainFrame.setSize(new Dimension(800, 600));
+
     }
 
     public static void main(String[] args) {
