@@ -202,7 +202,6 @@ public class Controller {
                         + " Departure: " + bookingRes.getString(4)
                         + " Arrival: " + bookingRes.getString(5) + "\n";
             }
-            System.out.println(result);
         } catch(Exception e){
             e.printStackTrace();
             disconnect();
