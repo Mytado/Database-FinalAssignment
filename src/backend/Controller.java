@@ -181,6 +181,36 @@ public class Controller {
         return false;
     }
 
+    public String showBookings (String email){
+        connect();
+        String result = "";
+        try {
+            PreparedStatement selectStatement = con.prepareStatement("SELECT customer_id FROM customer WHERE LOWER(customer_email) = LOWER(?)");
+            selectStatement.setString(1, email);
+            ResultSet customerResult = selectStatement.executeQuery();
+            int customerId = 0;
+            while (customerResult.next()) {
+                customerId = customerResult.getInt(1);
+            }
+            PreparedStatement bookingStatement = con.prepareStatement("SELECT c.booking_id, t.travel_from, t.travel_to, t.travel_departure, t.travel_arrival  FROM customertravel c, travel t WHERE customer_id = ? AND t.travel_id = c.travel_id");
+            bookingStatement.setInt(1,customerId);
+            ResultSet bookingRes = bookingStatement.executeQuery();
+            while(bookingRes.next()){
+                result += "booking ID: " + bookingRes.getInt(1)
+                        + " From: " + bookingRes.getString(2)
+                        + " To: " + bookingRes.getString(3)
+                        + " Departure: " + bookingRes.getString(4)
+                        + " Arrival: " + bookingRes.getString(5) + "\n";
+            }
+            System.out.println(result);
+        } catch(Exception e){
+            e.printStackTrace();
+            disconnect();
+            return result;
+        }
+        return result;
+    }
+
     public void disconnect() {
         try {
             con.close();
@@ -192,8 +222,7 @@ public class Controller {
     public static void main(String[] args) {
         Controller c = new Controller();
         try {
-            //   c.createAccount("Erik", "testsson", "testgatan 1", 27614, "Malmoe", "test@test.se", "782346238746");
-            System.out.println(c.book(1, 1, "Rick@gmail.com"));
+            c.showBookings("karl@gmail.com");
             c.disconnect();
         } catch (Exception e) {
 
